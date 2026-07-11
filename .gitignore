@@ -1,0 +1,8 @@
+.DS_Store
+*.swp
+*.tmp
+
+# Local screenshots and test vaults may contain private notes.
+screenshots-private/
+test-vault/
+.obsidian/
