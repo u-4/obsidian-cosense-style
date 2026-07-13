@@ -13,6 +13,7 @@ body {
   --cosense-card-pad-x: 48px;
   --cosense-card-pad-y: 38px;
   --cosense-preview-radius: 8px;
+  --cosense-preview-frame-width: 4px;
 }
 
 .theme-light {
@@ -45,6 +46,7 @@ body {
   --cosense-card-shadow: 0 10px 24px rgba(24, 55, 92, 0.18);
   --cosense-preview-bar: #e2e2e2;
   --cosense-preview-bar-text: #363c49;
+  --cosense-preview-frame: #5170b9;
   --cosense-preview-border: rgba(20, 40, 70, 0.24);
   --cosense-preview-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
   --cosense-text: #1f2933;
@@ -92,6 +94,7 @@ body {
   --cosense-card-shadow: 0 12px 28px rgba(0, 0, 0, 0.32);
   --cosense-preview-bar: #2b2e38;
   --cosense-preview-bar-text: #dddede;
+  --cosense-preview-frame: #8090a4;
   --cosense-preview-border: rgba(235, 241, 248, 0.18);
   --cosense-preview-shadow: 0 2px 10px rgba(0, 0, 0, 0.32);
   --cosense-text: #e9eaeb;
@@ -389,7 +392,9 @@ body .popover.hover-popover {
   background: var(--cosense-card);
   border: 1px solid var(--cosense-preview-border);
   border-radius: var(--cosense-preview-radius);
-  box-shadow: var(--cosense-preview-shadow);
+  box-shadow:
+    0 0 0 var(--cosense-preview-frame-width) var(--cosense-preview-frame),
+    var(--cosense-preview-shadow);
 }
 
 body .popover.hover-popover > .popover-content {

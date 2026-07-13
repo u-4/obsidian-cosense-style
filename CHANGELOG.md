@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-07-14
+
+### Changed
+
+- Increased compact hover preview frame visibility with a uniform four-pixel, theme-aware outer ring based on the reference card image.
+
+### Verified
+
+- Confirmed the uniform frame width and preserved title-bar colors in Obsidian 1.12.7 on macOS with the default light and dark themes.
+
 ## [0.2.0] - 2026-07-14
 
 ### Changed
