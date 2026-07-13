@@ -12,6 +12,7 @@ body {
   --cosense-line-height: 1.85;
   --cosense-card-pad-x: 48px;
   --cosense-card-pad-y: 38px;
+  --cosense-preview-radius: 8px;
 }
 
 .theme-light {
@@ -42,6 +43,10 @@ body {
   --cosense-card: #ffffff;
   --cosense-card-border: rgba(20, 40, 70, 0.16);
   --cosense-card-shadow: 0 10px 24px rgba(24, 55, 92, 0.18);
+  --cosense-preview-bar: #e2e2e2;
+  --cosense-preview-bar-text: #363c49;
+  --cosense-preview-border: rgba(20, 40, 70, 0.24);
+  --cosense-preview-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
   --cosense-text: #1f2933;
   --cosense-muted: #7f8b99;
   --cosense-existing-link: #2777e5;
@@ -85,6 +90,10 @@ body {
   --cosense-card: #373b44;
   --cosense-card-border: rgba(235, 241, 248, 0.12);
   --cosense-card-shadow: 0 12px 28px rgba(0, 0, 0, 0.32);
+  --cosense-preview-bar: #2b2e38;
+  --cosense-preview-bar-text: #dddede;
+  --cosense-preview-border: rgba(235, 241, 248, 0.18);
+  --cosense-preview-shadow: 0 2px 10px rgba(0, 0, 0, 0.32);
   --cosense-text: #e9eaeb;
   --cosense-muted: #a8b0ba;
   --cosense-existing-link: #81c9fe;
@@ -363,6 +372,72 @@ body,
   border-radius: var(--cosense-radius);
   box-shadow: var(--cosense-card-shadow);
   overflow: visible;
+}
+
+/* Frame hover previews like compact note cards. */
+body .popover.hover-popover {
+  --he-popover-border-radius: var(--cosense-preview-radius);
+  --he-title-bar-active-bg: var(--cosense-preview-bar);
+  --he-title-bar-inactive-bg: var(--cosense-preview-bar);
+  --he-title-bar-active-pinned-bg: var(--cosense-preview-bar);
+  --he-title-bar-inactive-pinned-bg: var(--cosense-preview-bar);
+  --he-title-bar-active-fg: var(--cosense-preview-bar-text);
+  --he-title-bar-inactive-fg: var(--cosense-preview-bar-text);
+  --he-title-bar-active-action: var(--cosense-preview-bar-text);
+  --he-title-bar-inactive-action: var(--cosense-preview-bar-text);
+  box-sizing: border-box;
+  background: var(--cosense-card);
+  border: 1px solid var(--cosense-preview-border);
+  border-radius: var(--cosense-preview-radius);
+  box-shadow: var(--cosense-preview-shadow);
+}
+
+body .popover.hover-popover > .popover-content {
+  background: var(--cosense-card);
+  border-radius: calc(var(--cosense-preview-radius) - 1px);
+  overflow: hidden;
+}
+
+body .popover.hover-popover.hover-editor .popover-titlebar,
+body .popover.hover-popover .view-header,
+body .popover.hover-popover .mod-root .view-header {
+  background: var(--cosense-preview-bar);
+  color: var(--cosense-preview-bar-text);
+  border-top: 0;
+  border-bottom: 1px solid var(--cosense-preview-border);
+  box-shadow: none;
+}
+
+body .popover.hover-popover .view-header-title,
+body .popover.hover-popover .view-header-title-container,
+body .popover.hover-popover .view-header-breadcrumb,
+body .popover.hover-popover .view-header-breadcrumb-separator,
+body .popover.hover-popover .view-action,
+body .popover.hover-popover .view-header-icon {
+  color: var(--cosense-preview-bar-text);
+}
+
+/* Match hover preview surfaces to the normal note card color pairing. */
+.popover.hover-popover .markdown-reading-view,
+.popover.hover-popover .markdown-preview-view,
+.popover.hover-popover .markdown-source-view.mod-cm6,
+.popover.hover-popover .markdown-source-view.mod-cm6 .cm-scroller {
+  background: var(--cosense-card);
+  color: var(--cosense-text);
+}
+
+/* Hover previews already provide their own panel and content spacing. */
+.popover.hover-popover .markdown-preview-view .markdown-preview-sizer,
+.popover.hover-popover .markdown-source-view.mod-cm6 .cm-sizer {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .markdown-source-view.mod-cm6 .cm-scroller {
