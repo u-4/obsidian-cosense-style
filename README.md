@@ -11,6 +11,8 @@ Cosense（旧Scrapbox）の表示に着想を得た、Obsidian用の非公式CSS
 
 - ライトテーマとダークテーマの自動切り替え
 - ノート本文を大きなカードとして表示
+- 幅の小さいリンク先プレビューでは内側のカード枠を外し、通常ノートカードと同じ背景・文字色、外周だけの角丸枠で内容幅を確保
+- 任意のHover Editorプラグインを使う場合は、プレビューの上部バーをテーマ別の控えめなグレーに調整
 - 存在するノート、存在しないノート、外部リンクの配色分け
 - 外部URLとファイル種別に応じた簡易ラベル
 - タブ、タイトルバー、リボン、左右サイドバーの配色調整
@@ -33,7 +35,7 @@ Cosense（旧Scrapbox）の表示に着想を得た、Obsidian用の非公式CSS
 
 ## Compatibility
 
-初期公開版は、以下の環境で調整・確認しています。
+このスニペットは、以下の環境で調整・確認しています。
 
 - Obsidian 1.12.7
 - macOS
@@ -41,6 +43,12 @@ Cosense（旧Scrapbox）の表示に着想を得た、Obsidian用の非公式CSS
 - Obsidian標準のライトテーマ／ダークテーマ
 
 Obsidianの内部HTMLクラスを利用している箇所があるため、Obsidianの更新後に一部の表示が変わる可能性があります。また、他のテーマやUIを大きく変更するCSSスニペットと同時に有効化すると、競合する場合があります。
+
+### Hover preview integration
+
+標準のページプレビューでは、通常ノートカードと同じ背景・文字色、外周だけの角丸枠が適用されます。任意のHover Editorプラグインを導入している場合は、アクティブ、非アクティブ、ピン留め状態の上部バーにも補助スタイルが適用されます。Hover Editorは必須ではありません。
+
+Hover Editorの内部HTMLクラスやCSS変数が将来変更された場合は、上部バーの調整だけが効かなくなる可能性があります。
 
 ### Key-Value List integration
 
@@ -58,7 +66,7 @@ Obsidianの内部HTMLクラスを利用している箇所があるため、Obsid
 
 ## English summary
 
-An unofficial Obsidian CSS snippet inspired by the visual language of Cosense, formerly Scrapbox. It supports light and dark modes, desktop and mobile layouts, note-card styling, link-state colors, tabs, sidebars, and code blocks.
+An unofficial Obsidian CSS snippet inspired by the visual language of Cosense, formerly Scrapbox. It supports light and dark modes, desktop and mobile layouts, note-card styling, compact link previews, link-state colors, tabs, sidebars, and code blocks.
 
 Install `cosense-scrapbox-style.css` into `<Vault>/.obsidian/snippets/`, then enable it in **Settings → Appearance → CSS snippets**.
 
