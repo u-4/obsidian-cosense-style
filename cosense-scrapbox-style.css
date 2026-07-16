@@ -14,6 +14,8 @@ body {
   --cosense-card-pad-y: 38px;
   --cosense-preview-radius: 8px;
   --cosense-preview-frame-width: 4px;
+  --cosense-related-gap: 24px;
+  --cosense-related-bottom-space: 55px;
 }
 
 .theme-light {
@@ -453,6 +455,105 @@ body .popover.hover-popover .view-header-icon {
 .markdown-source-view.mod-cm6 .cm-contentContainer,
 .markdown-source-view.mod-cm6 .cm-line {
   overflow: visible;
+}
+
+/*
+  Keep note content and document-related regions visually separate without
+  reparenting Obsidian or CodeMirror-owned DOM. 2Hop Links Plus exposes the
+  versioned outer classes/data attributes; the plugin continues to own its
+  toolbar and card grid.
+*/
+.workspace-split.mod-root .is-document-related-region,
+.workspace-split.mod-root .markdown-preview-sizer > .mod-footer:has(.embedded-backlinks) .embedded-backlinks,
+.workspace-split.mod-root .markdown-source-view.mod-cm6 .cm-sizer > .embedded-backlinks {
+  --text-normal: var(--cosense-side-text);
+  --text-muted: #e2edf9;
+  --link-color: #eef6ff;
+  --link-color-hover: #ffffff;
+  --link-unresolved-color: #ffe7eb;
+  color: var(--cosense-side-text);
+  background: transparent;
+}
+
+.workspace-split.mod-root .is-document-related-region {
+  --twohop-toolbar-background: var(--cosense-card);
+  --twohop-toolbar-text: var(--cosense-text);
+  --twohop-toolbar-border: var(--cosense-card-border);
+  --twohop-surface-muted: var(--cosense-side-muted);
+  background: transparent;
+}
+
+/* Keep the 2Hop-owned sort popup readable without recoloring other menus. */
+body.theme-light .twohop-links-sort-menu-scope,
+body.theme-dark .twohop-links-sort-menu-scope {
+  --twohop-sort-menu-background: var(--cosense-card);
+  --twohop-sort-menu-hover: color-mix(in srgb, var(--cosense-card), var(--cosense-text) 10%);
+  --twohop-sort-menu-text: var(--cosense-text);
+  --twohop-sort-menu-muted: var(--cosense-muted);
+  --twohop-sort-menu-border: var(--cosense-card-border);
+}
+
+/* Reading view: 2Hop is already outside the note sizer. */
+.workspace-split.mod-root .markdown-preview-view > .twohop-links-container--inline {
+  box-sizing: border-box;
+  width: min(var(--cosense-note-width), calc(100% - var(--cosense-note-side-gap)));
+  max-width: min(var(--cosense-note-width), calc(100% - var(--cosense-note-side-gap)));
+  margin: var(--cosense-related-gap) auto var(--cosense-related-bottom-space);
+}
+
+/* Reading view: visually lift the core in-document backlinks out of the card. */
+.workspace-split.mod-root .markdown-preview-sizer > .mod-footer:has(.embedded-backlinks) {
+  box-sizing: border-box;
+  width: calc(100% + var(--cosense-card-pad-x) + var(--cosense-card-pad-x));
+  margin: 0 calc(0px - var(--cosense-card-pad-x)) calc(0px - var(--cosense-card-pad-y) - 6px) !important;
+  padding: var(--cosense-related-gap) var(--cosense-card-pad-x) var(--cosense-related-gap) !important;
+  position: relative;
+  z-index: 1;
+  background: var(--cosense-canvas);
+  border-radius: var(--cosense-radius) var(--cosense-radius) 0 0;
+}
+
+/*
+  Live Preview / Source mode: backlinks and 2Hop are direct cm-sizer children.
+  Expand their canvas-colored surface across the card padding, but do not move
+  or wrap any CodeMirror-owned element.
+*/
+.workspace-split.mod-root .markdown-source-view.mod-cm6 .cm-sizer > :is(.embedded-backlinks, .twohop-links-container--inline) {
+  box-sizing: border-box;
+  width: calc(100% + var(--cosense-card-pad-x) + var(--cosense-card-pad-x));
+  margin-inline: calc(0px - var(--cosense-card-pad-x)) !important;
+  position: relative;
+  z-index: 1;
+  background: var(--cosense-canvas);
+  border-radius: var(--cosense-radius) var(--cosense-radius) 0 0;
+  box-shadow: -1px 0 0 var(--cosense-canvas), 1px 0 0 var(--cosense-canvas);
+}
+
+.workspace-split.mod-root .markdown-source-view.mod-cm6 .cm-sizer > :is(.embedded-backlinks, .twohop-links-container--inline) ~ :is(.embedded-backlinks, .twohop-links-container--inline) {
+  border-radius: 0;
+}
+
+.workspace-split.mod-root .markdown-source-view.mod-cm6 .cm-sizer > .embedded-backlinks {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding: var(--cosense-related-gap) var(--cosense-card-pad-x) !important;
+}
+
+.workspace-split.mod-root .markdown-source-view.mod-cm6 .cm-sizer > .twohop-links-container--inline {
+  margin-top: 0 !important;
+  margin-bottom: calc(0px - var(--cosense-card-pad-y) - 6px) !important;
+  padding: var(--cosense-related-gap) 0 var(--cosense-related-bottom-space);
+  box-shadow: -1px 0 0 var(--cosense-canvas), 1px 0 0 var(--cosense-canvas), 0 1px 0 var(--cosense-canvas);
+}
+
+.workspace-split.mod-root .markdown-source-view.mod-cm6 .cm-sizer > .embedded-backlinks:last-child {
+  margin-bottom: calc(0px - var(--cosense-card-pad-y) - 6px) !important;
+  padding-bottom: calc(var(--cosense-related-gap) + var(--cosense-related-bottom-space)) !important;
+}
+
+.workspace-split.mod-root .markdown-source-view.mod-cm6 .cm-sizer > .embedded-backlinks + .twohop-links-container--inline {
+  margin-top: 0 !important;
+  padding-top: 0;
 }
 
 .markdown-preview-view h1,
