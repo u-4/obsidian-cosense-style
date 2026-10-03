@@ -16,7 +16,7 @@ AIエージェント（Claude Code・Codex）向けの作業指示です。
 
 - Obsidianの内部クラスに頼る変更は、確かめたObsidianの版と環境をCHANGELOGに書く。
 - ライト／ダーク、デスクトップ／モバイルで表示を確かめる。2Hop Links PlusやKey-Value Listなど、特定のプラグイン向けの調整は任意の機能として扱う。
-- 版を上げるときは、CHANGELOGに版と日付を書き、Gitのタグを付ける。GitHubのReleaseは作らない。
+- 版を上げるときは、CHANGELOGに版と日付を書き、Gitのタグを付ける。版を上げたら、タグと同時にGitHubのReleaseも作る（`gh release create`）。
 
 ## 配置
 
