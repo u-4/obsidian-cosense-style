@@ -4,10 +4,16 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.2.2] - 2026-10-04
+
 ### Added
 
 - Added a safe visual boundary between note content and document-related regions from 2Hop Links Plus and Obsidian's in-document backlinks without moving Obsidian or CodeMirror DOM.
 - Added scoped light/dark colors for the 2Hop temporary-sort menu and covered the remaining one-pixel editor-card border around its related-links canvas.
+
+### Maintenance
+
+- Added `AGENTS.md` for AI coding agents and `scripts/deploy.mjs`, which installs the snippet into a vault with a backup and a checksum check.
 
 ## [0.2.1] - 2026-07-14
 
