@@ -138,23 +138,18 @@ body {
 }
 
 /*
-  Shared note-card look for 2Hop Links Plus (0.45.0+) and PalmWiki Home.
+  Shared note-card colors for 2Hop Links Plus (0.45.0+) and PalmWiki Home (1.5.1+).
   Declared on body so the colors resolve from the Cosense palette before
   document-related regions override --text-normal for the blue canvas.
-  --cosense-card-border is the theme color declared above.
+  --cosense-card-border is the theme color declared above. Card sizes are left
+  to the plugins: their defaults already match, and a single gap/padding value
+  would replace PalmWiki Home's narrow-screen values.
 */
 body {
   --cosense-card-bg: var(--cosense-card);
   --cosense-card-title: var(--cosense-text);
   --cosense-card-text: var(--cosense-muted);
   --cosense-card-hover-bg: color-mix(in srgb, var(--cosense-card), var(--cosense-text) 6%);
-  --cosense-card-min-width: 180px;
-  --cosense-card-gap: 12px;
-  --cosense-card-height: 220px;
-  --cosense-card-height-narrow: 205px;
-  --cosense-card-padding: 12px;
-  --cosense-card-radius: 8px;
-  --cosense-card-media-height: 80px;
 }
 
 body,
