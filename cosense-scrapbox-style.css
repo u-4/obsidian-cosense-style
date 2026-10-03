@@ -152,6 +152,11 @@ body {
   --cosense-card-hover-bg: color-mix(in srgb, var(--cosense-card), var(--cosense-text) 6%);
 }
 
+/* A 6% tint barely shows on the white light-theme card. */
+body.theme-light {
+  --cosense-card-hover-bg: color-mix(in srgb, var(--cosense-card), var(--cosense-text) 12%);
+}
+
 body,
 .app-container,
 .horizontal-main-container,

@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Changed
+
+- Doubled the light-theme hover tint on shared note cards (6% to 12%) so the card under the pointer stands out on white; the dark theme keeps 6%.
+
 ## [0.2.3] - 2026-10-04
 
 ### Added
