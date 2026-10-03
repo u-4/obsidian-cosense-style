@@ -4,9 +4,15 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.2.4] - 2026-10-04
+
 ### Changed
 
 - Doubled the light-theme hover tint on shared note cards (6% to 12%) so the card under the pointer stands out on white; the dark theme keeps 6%.
+
+### Verified
+
+- Confirmed the light-theme hover tint in Obsidian 1.12.7 on macOS.
 
 ## [0.2.3] - 2026-10-04
 
