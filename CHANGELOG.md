@@ -4,13 +4,16 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.2.3] - 2026-10-04
+
 ### Added
 
 - Defined the shared `--cosense-card-*` color variables (background, title, excerpt, hover) on `body`, so 2Hop Links Plus 0.45.0+ and PalmWiki Home 1.5.1+ cards use the same Cosense palette. Card sizes stay with the plugins' matching defaults, which keeps PalmWiki Home's narrow-screen gap and padding. The colors resolve from the Cosense palette before document-related regions override `--text-normal` for the blue canvas. `--cosense-card-border` keeps its existing theme color.
 
 ### Verified
 
-- Checked the resolved card colors and sizes in light and dark themes, and the 520px narrow branch, with the 2Hop Links Plus 0.45.0 and PalmWiki Home 1.5.1 stylesheets in a local test page with fictional cards. Not yet checked inside Obsidian 1.12.7.
+- Checked the resolved card colors and sizes in light and dark themes, and the narrow branches, with the 2Hop Links Plus 0.45.0 and PalmWiki Home 1.5.1 stylesheets in a local test page with fictional cards.
+- Confirmed 2Hop Links Plus 0.45.1 and PalmWiki Home 1.5.1 cards in Obsidian 1.12.7 on macOS with the default light and dark themes.
 
 ## [0.2.2] - 2026-10-04
 
