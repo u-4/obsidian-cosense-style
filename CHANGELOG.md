@@ -10,8 +10,16 @@ All notable changes to this project will be documented in this file.
 - Removed the overrides on the active tab's corner pseudo-elements, which left small dark triangles at its bottom corners, along with the tab outline and drop shadow.
 - Sidebar tab icons use Obsidian's active marker with a light tint that shows on the blue sidebar.
 
+- Reorganized the snippet into numbered sections and moved link styling onto Obsidian's `--link-*` variables, which removed most `!important` overrides outside the mobile section (108 to 70) and five unused color tokens. Computed styles are unchanged except for the fixes listed under Fixed.
+
+### Fixed
+
+- Links in the reading-view backlinks under a note now use the light link color of the blue region, as they already did in Live Preview, instead of blue on blue.
+- External links in Live Preview no longer turn Obsidian's purple accent color on hover.
+
 ### Verified
 
+- Compared computed styles of every element in a fixture of Obsidian 1.13.7 DOM (tabs, sidebars, note header, reading and Live Preview content, backlinks, 2Hop regions, hover previews, mobile drawer) before and after the reorganization, in light and dark, desktop and tablet classes, at 1280 and 700px, including forced hover on links, tabs, and header buttons.
 - Checked tab colors, contrast (active 6.95:1 light / 5.03:1 dark, inactive 4.80:1 light), corner rendering at 3x zoom, and the join with the note header in light and dark themes with Obsidian 1.13.7's `app.css` in a local test page. Not yet checked inside Obsidian; tablet tab bars are unverified.
 
 ## [0.2.5] - 2026-10-04
