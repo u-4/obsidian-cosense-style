@@ -31,18 +31,20 @@ body {
   --cosense-side-text: #f4f9ff;
   --cosense-side-muted: #c7d9ee;
   --cosense-side-border: rgba(11, 37, 67, 0.22);
-  --cosense-tabbar: #65c83f;
-  --cosense-tab: #c3ddbd;
+  --cosense-tabbar: #27832d;
   --cosense-tab-active: #65c83f;
   --cosense-tab-active-strong: #35a83a;
-  --cosense-tab-text: #183921;
-  --cosense-tab-active-text: #ffffff;
+  --cosense-tab-text: #ffffff;
+  --cosense-tab-active-text: #1f2933;
+  --cosense-tab-divider: rgba(255, 255, 255, 0.28);
+  --cosense-tab-hover: rgba(255, 255, 255, 0.16);
   --cosense-mobile-control: #35c83b;
   --cosense-mobile-control-strong: #2fa735;
   --cosense-mobile-control-deep: #238c2d;
   --cosense-mobile-control-soft: #b9e8ad;
   --cosense-mobile-control-text: #143321;
   --cosense-mobile-control-muted-text: rgba(20, 51, 33, 0.72);
+  --cosense-mobile-control-active-text: #ffffff;
   --cosense-card: #ffffff;
   --cosense-card-border: rgba(20, 40, 70, 0.16);
   --cosense-card-shadow: 0 10px 24px rgba(24, 55, 92, 0.18);
@@ -79,18 +81,20 @@ body {
   --cosense-side-text: #edf5ff;
   --cosense-side-muted: #b9cce2;
   --cosense-side-border: rgba(255, 255, 255, 0.1);
-  --cosense-tabbar: #376842;
-  --cosense-tab: #2b4635;
+  --cosense-tabbar: #1d3b24;
   --cosense-tab-active: #3f8a46;
   --cosense-tab-active-strong: #2c6935;
-  --cosense-tab-text: #eef8ec;
+  --cosense-tab-text: rgba(238, 248, 236, 0.84);
   --cosense-tab-active-text: #ffffff;
+  --cosense-tab-divider: rgba(238, 248, 236, 0.2);
+  --cosense-tab-hover: rgba(255, 255, 255, 0.1);
   --cosense-mobile-control: #3f8a46;
   --cosense-mobile-control-strong: #2c6935;
   --cosense-mobile-control-deep: #24572d;
   --cosense-mobile-control-soft: #2b4635;
   --cosense-mobile-control-text: #eef8ec;
   --cosense-mobile-control-muted-text: rgba(238, 248, 236, 0.76);
+  --cosense-mobile-control-active-text: #ffffff;
   --cosense-card: #373b44;
   --cosense-card-border: rgba(235, 241, 248, 0.12);
   --cosense-card-shadow: 0 12px 28px rgba(0, 0, 0, 0.32);
@@ -125,12 +129,19 @@ body {
   --link-color-hover: var(--cosense-external-link);
   --link-external-color: var(--cosense-external-link);
   --link-unresolved-color: var(--cosense-missing-link);
-  --titlebar-background: var(--cosense-titlebar);
-  --titlebar-background-focused: var(--cosense-titlebar);
+  --titlebar-background: var(--cosense-tabbar);
+  --titlebar-background-focused: var(--cosense-tabbar);
   --tab-container-background: var(--cosense-tabbar);
-  --tab-background-active: var(--cosense-tab-active);
+  /* The active tab is the header's top color so Obsidian's curves join them. */
+  --tab-background-active: var(--cosense-topbar);
+  --tab-outline-color: var(--cosense-tabbar);
+  --tab-divider-color: var(--cosense-tab-divider);
   --tab-text-color: var(--cosense-tab-text);
+  --tab-text-color-focused: var(--cosense-tab-text);
   --tab-text-color-active: var(--cosense-tab-active-text);
+  --tab-text-color-focused-active: var(--cosense-tab-active-text);
+  --tab-text-color-focused-active-current: var(--cosense-tab-active-text);
+  --tab-text-color-focused-highlighted: var(--cosense-tab-active-text);
   --ribbon-background: var(--cosense-side-deep);
   --ribbon-background-collapsed: var(--cosense-side-deep);
   --interactive-accent: var(--cosense-tab-active);
@@ -169,68 +180,35 @@ body,
 .titlebar-button-container,
 .titlebar-button-container.mod-left,
 .titlebar-button-container.mod-right {
-  background: var(--cosense-titlebar);
-  color: var(--cosense-topbar-text);
-}
-
-.workspace-tabs.mod-top-left-space .workspace-tab-header-container::before,
-.workspace-tabs.mod-top-right-space .workspace-tab-header-container::after,
-.mod-left-split .workspace-tab-header-container::before,
-.mod-right-split .workspace-tab-header-container::after,
-.workspace-tab-header-spacer,
-.workspace-tab-header-new-tab,
-.workspace-tab-header-tab-list,
-.workspace-tab-header-container .clickable-icon {
-  background: var(--cosense-titlebar);
-  color: var(--cosense-topbar-text);
-}
-
-.workspace-tab-header-container,
-.workspace-tab-header-container-inner {
-  background: var(--cosense-titlebar);
-}
-
-.workspace-tab-header {
-  background: var(--cosense-tab);
-  border: 1px solid color-mix(in srgb, var(--cosense-tab-active-strong), transparent 70%);
-  border-radius: var(--cosense-radius) var(--cosense-radius) 0 0;
-  margin-inline: 2px;
-}
-
-.workspace-tab-header.is-active {
-  --tab-background-active: var(--cosense-tab-active-strong);
-  --tab-outline-color: var(--cosense-tab-active-strong);
-  background: linear-gradient(180deg, var(--cosense-tab-active), var(--cosense-tab-active-strong));
-  border-color: color-mix(in srgb, var(--cosense-topbar-border), #000000 14%);
-  outline: 2px solid color-mix(in srgb, var(--cosense-topbar-border), #ffffff 28%);
-  outline-offset: -2px;
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.34) inset, 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.workspace-tab-header.is-active::before,
-.workspace-tab-header.is-active::after,
-.workspace-tab-header.is-active .workspace-tab-header-inner::before,
-.workspace-tab-header.is-active .workspace-tab-header-inner::after {
-  background: var(--cosense-tab-active-strong) !important;
-  border-color: var(--cosense-tab-active-strong) !important;
-  box-shadow: none !important;
-}
-
-.workspace-tab-header-inner-title,
-.workspace-tab-header-inner-icon,
-.titlebar-text {
+  background: var(--cosense-tabbar);
   color: var(--cosense-tab-text);
 }
 
-.workspace-tab-header.is-active .workspace-tab-header-inner-title,
-.workspace-tab-header.is-active .workspace-tab-header-inner-icon {
-  color: var(--cosense-tab-active-text);
-  font-weight: 700;
+/*
+  Tabs: Obsidian draws the tab shapes and the active tab's bottom curves from
+  the --tab-* variables set on body. Only colors are set here; overriding the
+  tab's pseudo-elements leaves stray corners.
+*/
+.workspace-tab-header-container {
+  --background-modifier-hover: var(--cosense-tab-hover);
+  --icon-color: var(--cosense-tab-text);
+  --icon-color-hover: var(--cosense-tab-text);
+  --icon-color-focused: var(--cosense-tab-text);
+}
+
+.mod-root .workspace-tab-header.is-active {
+  --icon-color: var(--cosense-tab-active-text);
+  --icon-color-hover: var(--cosense-tab-active-text);
+  --icon-color-focused: var(--cosense-tab-active-text);
+}
+
+.mod-root .workspace-tab-header.is-active .workspace-tab-header-inner-title {
+  font-weight: 600;
 }
 
 .titlebar-text,
 .titlebar-button {
-  color: var(--cosense-topbar-text);
+  color: var(--cosense-tab-text);
 }
 
 .workspace-ribbon {
@@ -292,53 +270,13 @@ body,
   color: var(--cosense-side-text);
 }
 
+/* Sidebar tab icons: Obsidian marks the active one with --background-modifier-hover. */
 .mod-left-split .workspace-tab-header-container,
-.mod-right-split .workspace-tab-header-container,
-.mod-left-split .workspace-tab-header-container-inner,
-.mod-right-split .workspace-tab-header-container-inner {
-  background: var(--cosense-titlebar);
+.mod-right-split .workspace-tab-header-container {
+  --background-modifier-hover: rgba(255, 255, 255, 0.2);
   border-color: var(--cosense-side-border);
 }
 
-.mod-left-split .workspace-tab-header-spacer,
-.mod-right-split .workspace-tab-header-spacer,
-.mod-left-split .workspace-tab-header-new-tab,
-.mod-right-split .workspace-tab-header-new-tab,
-.mod-left-split .workspace-tab-header-tab-list,
-.mod-right-split .workspace-tab-header-tab-list,
-.mod-left-split .workspace-tab-header-container .clickable-icon,
-.mod-right-split .workspace-tab-header-container .clickable-icon {
-  background: transparent;
-  color: var(--cosense-topbar-text);
-}
-
-.mod-left-split .workspace-tab-header,
-.mod-right-split .workspace-tab-header {
-  background: var(--cosense-titlebar);
-  border-color: color-mix(in srgb, var(--cosense-topbar-text), transparent 76%);
-}
-
-.mod-left-split .workspace-tab-header.is-active,
-.mod-right-split .workspace-tab-header.is-active {
-  background: linear-gradient(180deg, var(--cosense-tab-active), var(--cosense-tab-active-strong));
-  border-color: color-mix(in srgb, var(--cosense-topbar-border), #000000 14%);
-  outline: 2px solid color-mix(in srgb, var(--cosense-topbar-border), #ffffff 28%);
-  outline-offset: -2px;
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset, 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.mod-left-split .workspace-tab-header.is-active .workspace-tab-header-inner-title,
-.mod-right-split .workspace-tab-header.is-active .workspace-tab-header-inner-title,
-.mod-left-split .workspace-tab-header.is-active .workspace-tab-header-inner-icon,
-.mod-right-split .workspace-tab-header.is-active .workspace-tab-header-inner-icon {
-  color: var(--cosense-tab-active-text);
-  font-weight: 700;
-}
-
-.mod-left-split .workspace-tab-header-inner-title,
-.mod-right-split .workspace-tab-header-inner-title,
-.mod-left-split .workspace-tab-header-inner-icon,
-.mod-right-split .workspace-tab-header-inner-icon,
 .mod-left-split .view-header-title,
 .mod-right-split .view-header-title,
 .mod-left-split .view-action,
@@ -360,9 +298,8 @@ body,
 .mod-root .view-header {
   background: linear-gradient(180deg, var(--cosense-topbar), var(--cosense-tab-active-strong));
   color: var(--cosense-topbar-text);
-  border-top: 1px solid var(--cosense-topbar-border);
   border-bottom: 1px solid rgba(0, 0, 0, 0.16);
-  box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
 }
 
 .view-header-title,
@@ -942,12 +879,7 @@ body.theme-dark .twohop-links-sort-menu-scope {
 .is-mobile .mobile-toolbar,
 .is-mobile .mobile-toolbar-options-container,
 .is-mobile .workspace-drawer-header,
-.is-mobile .workspace-drawer-ribbon,
-.is-mobile .workspace-tab-header-container,
-.is-mobile .workspace-tab-header-container-inner,
-.is-mobile .workspace-tab-header-spacer,
-.is-mobile .workspace-tab-header-new-tab,
-.is-mobile .workspace-tab-header-tab-list {
+.is-mobile .workspace-drawer-ribbon {
   background: var(--cosense-titlebar);
   color: var(--cosense-topbar-text);
 }
@@ -955,8 +887,7 @@ body.theme-dark .twohop-links-sort-menu-scope {
 .is-mobile .mobile-navbar-action,
 .is-mobile .mobile-navbar .clickable-icon,
 .is-mobile .mobile-toolbar .clickable-icon,
-.is-mobile .workspace-drawer-header .clickable-icon,
-.is-mobile .workspace-tab-header-container .clickable-icon {
+.is-mobile .workspace-drawer-header .clickable-icon {
   background: transparent !important;
   color: var(--cosense-mobile-control-text);
   opacity: 0.95;
@@ -964,8 +895,7 @@ body.theme-dark .twohop-links-sort-menu-scope {
 
 .is-mobile .mobile-navbar-action:hover,
 .is-mobile .mobile-toolbar .clickable-icon:hover,
-.is-mobile .workspace-drawer-header .clickable-icon:hover,
-.is-mobile .workspace-tab-header-container .clickable-icon:hover {
+.is-mobile .workspace-drawer-header .clickable-icon:hover {
   background: rgba(255, 255, 255, 0.16);
   color: #ffffff;
 }
@@ -1068,15 +998,15 @@ body.theme-dark .twohop-links-sort-menu-scope {
 .is-mobile .workspace-drawer .workspace-drawer-tab-options-list .workspace-tab-header.is-active .workspace-tab-header-inner,
 .is-mobile .workspace-drawer .workspace-drawer-tab-options-list .workspace-tab-header.has-active-menu .workspace-tab-header-inner {
   background: linear-gradient(180deg, var(--cosense-mobile-control), var(--cosense-mobile-control-strong)) !important;
-  color: var(--cosense-tab-active-text) !important;
-  --icon-color: var(--cosense-tab-active-text);
+  color: var(--cosense-mobile-control-active-text) !important;
+  --icon-color: var(--cosense-mobile-control-active-text);
 }
 
 .is-mobile .workspace-drawer .workspace-drawer-tab-select {
   background: var(--cosense-card) !important;
   border-radius: var(--touch-radius-xs) !important;
-  color: var(--cosense-tab-active-text) !important;
-  --icon-color: var(--cosense-tab-active-text);
+  color: var(--cosense-mobile-control-active-text) !important;
+  --icon-color: var(--cosense-mobile-control-active-text);
 }
 
 .is-mobile .workspace-drawer .workspace-drawer-tab-select .workspace-tab-header-inner {
@@ -1084,13 +1014,13 @@ body.theme-dark .twohop-links-sort-menu-scope {
   border: 1px solid color-mix(in srgb, var(--cosense-mobile-control-strong), #000000 12%) !important;
   border-radius: var(--touch-radius-xs) !important;
   box-shadow: none !important;
-  color: var(--cosense-tab-active-text) !important;
+  color: var(--cosense-mobile-control-active-text) !important;
 }
 
 .is-mobile .workspace-drawer .workspace-drawer-tab-select .workspace-drawer-active-tab-chevron,
 .is-mobile .workspace-drawer .workspace-drawer-tab-select .workspace-tab-header-inner-icon,
 .is-mobile .workspace-drawer .workspace-drawer-tab-select .workspace-tab-header-inner-title {
-  color: var(--cosense-tab-active-text) !important;
+  color: var(--cosense-mobile-control-active-text) !important;
 }
 
 .is-mobile .workspace-drawer .workspace-drawer-vault-switcher,

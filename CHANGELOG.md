@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Changed
+
+- Rebuilt the tab bar on Obsidian's own `--tab-*` variables. The bar is a deeper green, inactive tabs have no fill and white text, and the active tab takes the note header's top color with dark bold text, so it reads as one piece with the header below. The header no longer draws a top border between them.
+- Removed the overrides on the active tab's corner pseudo-elements, which left small dark triangles at its bottom corners, along with the tab outline and drop shadow.
+- Sidebar tab icons use Obsidian's active marker with a light tint that shows on the blue sidebar.
+
+### Verified
+
+- Checked tab colors, contrast (active 6.95:1 light / 5.03:1 dark, inactive 4.80:1 light), corner rendering at 3x zoom, and the join with the note header in light and dark themes with Obsidian 1.13.7's `app.css` in a local test page. Not yet checked inside Obsidian; tablet tab bars are unverified.
+
 ## [0.2.5] - 2026-10-04
 
 ### Changed
