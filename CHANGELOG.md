@@ -4,13 +4,16 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.2.5] - 2026-10-04
+
 ### Changed
 
 - Gave every button on the green note header one icon color and hover: Obsidian's back/forward buttons (previously `--text-muted` gray), PalmWiki Home's header buttons, and view actions now use the top-bar text color, with a darker translucent hover. Disabled back/forward keep Obsidian's reduced opacity.
 
 ### Verified
 
-- Checked the header icon colors, hover, and title centering at 600, 800, and 1200px in light and dark themes with Obsidian 1.13.7's `app.css`, PalmWiki Home 1.11.0, and 2Hop Links Plus 0.48.2 in a local test page. Not yet checked inside Obsidian.
+- Checked the header icon colors, hover, and title centering at 600, 800, and 1200px in light and dark themes with Obsidian 1.13.7's `app.css`, PalmWiki Home 1.11.0, and 2Hop Links Plus 0.48.2 in a local test page.
+- Confirmed the header buttons and hover in Obsidian 1.13.7 on macOS. The active note title keeps Obsidian's dark text in the light theme, by choice.
 
 ### Fixed
 
