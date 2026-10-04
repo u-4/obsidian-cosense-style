@@ -13,7 +13,6 @@
     8. Note content: headings, links, file badges, code, quotes, tables
     9. Plugin support: Key-Value List
    10. Mobile and tablet
-   11. Narrow windows
 
   Prefer Obsidian's own variables over overriding its rules, so its layout
   (tab curves, link states, focus rings) keeps working.
@@ -21,15 +20,23 @@
 
 /* 1. Tokens */
 
+/*
+  Card spacing scales with the window width between the phone values (min)
+  and the desktop values (max), so there is no sudden jump while resizing.
+  vw keeps each value the same length on the card and inside it, which the
+  negative margins of the related regions rely on.
+*/
 body {
   --cosense-radius: 5px;
   --cosense-note-width: clamp(980px, 72vw, 1280px);
-  --cosense-note-side-gap: 48px;
+  --cosense-note-side-gap: clamp(20px, 4vw, 48px);
   --cosense-font: var(--font-text);
   --cosense-mono: var(--font-monospace);
   --cosense-line-height: 1.85;
-  --cosense-card-pad-x: 48px;
-  --cosense-card-pad-y: 38px;
+  --cosense-card-pad-x: clamp(18px, 4vw, 48px);
+  --cosense-card-pad-y: clamp(24px, 3.2vw, 38px);
+  --cosense-card-margin-top: clamp(14px, 2.7vw, 32px);
+  --cosense-card-margin-bottom: clamp(28px, 3.7vw, 44px);
   --cosense-preview-radius: 8px;
   --cosense-preview-frame-width: 4px;
   --cosense-related-gap: 24px;
@@ -372,7 +379,7 @@ body,
 .markdown-source-view.mod-cm6 .cm-sizer {
   width: min(var(--cosense-note-width), calc(100% - var(--cosense-note-side-gap)));
   max-width: min(var(--cosense-note-width), calc(100% - var(--cosense-note-side-gap)));
-  margin: 32px auto 44px !important;
+  margin: var(--cosense-card-margin-top) auto var(--cosense-card-margin-bottom) !important;
   padding: var(--cosense-card-pad-y) var(--cosense-card-pad-x) calc(var(--cosense-card-pad-y) + 6px) !important;
   background: var(--cosense-card);
   border: 1px solid var(--cosense-card-border);
@@ -401,10 +408,10 @@ body,
   --link-color-hover: #ffffff;
   --link-unresolved-color: #ffe7eb;
   color: var(--cosense-side-text);
-  background: transparent;
 }
 
 .workspace-split.mod-root .is-document-related-region {
+  background: transparent;
   --twohop-toolbar-background: var(--cosense-card);
   --twohop-toolbar-text: var(--cosense-text);
   --twohop-toolbar-border: var(--cosense-card-border);
@@ -437,57 +444,78 @@ body.theme-dark .twohop-links-sort-menu-scope {
   margin: var(--cosense-related-gap) auto var(--cosense-related-bottom-space);
 }
 
-/* Reading view: lift the core in-document backlinks out of the card. */
-.workspace-split.mod-root .markdown-preview-sizer > .mod-footer:has(.embedded-backlinks) {
-  box-sizing: border-box;
-  width: calc(100% + var(--cosense-card-pad-x) + var(--cosense-card-pad-x));
-  margin: 0 calc(0px - var(--cosense-card-pad-x)) calc(0px - var(--cosense-card-pad-y) - 6px) !important;
-  padding: var(--cosense-related-gap) var(--cosense-card-pad-x) !important;
+/*
+  Backlinks and 2Hop render after the note text. They are added under the
+  card's bottom padding instead of replacing it, so the white space under the
+  text stays the same when they arrive.
+*/
+
+/*
+  Reading view: Obsidian creates .mod-footer on demand and moves the backlinks
+  into it. The footer's padding repeats the card's bottom padding (padding,
+  unlike margin, does not collapse with the last paragraph), its negative
+  margin cancels the card's own padding, and the backlinks inside it are the
+  blue region.
+*/
+.workspace-split.mod-root .markdown-preview-sizer > .mod-footer:has(> .embedded-backlinks:not([style*="display: none"])) {
+  margin: 0 0 calc(0px - var(--cosense-card-pad-y) - 6px) !important;
+  padding: calc(var(--cosense-card-pad-y) + 6px) 0 0 !important;
+}
+
+/* Obsidian zeroes the last block's bottom margin; keep it zero once the footer follows. */
+.workspace-split.mod-root .markdown-preview-sizer > div:not(.mod-ui):has(+ .mod-footer) > :last-child {
+  margin-bottom: 0;
+}
+
+.workspace-split.mod-root .markdown-preview-sizer > .mod-footer > .embedded-backlinks {
+  margin: 0 calc(0px - var(--cosense-card-pad-x)) !important;
+  padding: var(--cosense-related-gap) var(--cosense-card-pad-x);
   position: relative;
   z-index: 1;
   background: var(--cosense-canvas);
-  border-radius: var(--cosense-radius) var(--cosense-radius) 0 0;
+  border-top: 0;
+  border-radius: var(--cosense-radius) var(--cosense-radius) calc(var(--cosense-radius) - 1px) calc(var(--cosense-radius) - 1px);
+  box-shadow: -1px 0 0 var(--cosense-canvas), 1px 0 0 var(--cosense-canvas), 0 1px 0 var(--cosense-canvas);
 }
 
 /*
-  Live Preview / Source mode: backlinks and 2Hop are direct cm-sizer children.
-  Expand their canvas-colored surface across the card padding, but do not move
-  or wrap any CodeMirror-owned element.
+  Live Preview / Source mode: backlinks and 2Hop are direct children of the
+  flex-column .cm-sizer, where margins add up instead of collapsing. Each
+  region opens with the card's bottom padding as white space and gives it back
+  at its end, so one region or two in a row leave the text area unchanged and
+  the last one reaches the card's bottom edge. A hidden backlinks element
+  (display: none) takes no part.
 */
 .workspace-split.mod-root .markdown-source-view.mod-cm6 .cm-sizer > :is(.embedded-backlinks, .twohop-links-container--inline) {
   box-sizing: border-box;
   width: calc(100% + var(--cosense-card-pad-x) + var(--cosense-card-pad-x));
-  margin-inline: calc(0px - var(--cosense-card-pad-x)) !important;
-  margin-top: 0 !important;
+  margin: calc(var(--cosense-card-pad-y) + 6px) calc(0px - var(--cosense-card-pad-x)) calc(0px - var(--cosense-card-pad-y) - 6px) !important;
   position: relative;
   z-index: 1;
   background: var(--cosense-canvas);
-  border-radius: var(--cosense-radius) var(--cosense-radius) 0 0;
-  box-shadow: -1px 0 0 var(--cosense-canvas), 1px 0 0 var(--cosense-canvas);
-}
-
-.workspace-split.mod-root .markdown-source-view.mod-cm6 .cm-sizer > :is(.embedded-backlinks, .twohop-links-container--inline) ~ :is(.embedded-backlinks, .twohop-links-container--inline) {
-  border-radius: 0;
-}
-
-.workspace-split.mod-root .markdown-source-view.mod-cm6 .cm-sizer > .embedded-backlinks {
-  margin-bottom: 0 !important;
-  padding: var(--cosense-related-gap) var(--cosense-card-pad-x) !important;
-}
-
-.workspace-split.mod-root .markdown-source-view.mod-cm6 .cm-sizer > .embedded-backlinks:last-child {
-  margin-bottom: calc(0px - var(--cosense-card-pad-y) - 6px) !important;
-  padding-bottom: calc(var(--cosense-related-gap) + var(--cosense-related-bottom-space)) !important;
-}
-
-.workspace-split.mod-root .markdown-source-view.mod-cm6 .cm-sizer > .twohop-links-container--inline {
-  margin-bottom: calc(0px - var(--cosense-card-pad-y) - 6px) !important;
-  padding: var(--cosense-related-gap) 0 var(--cosense-related-bottom-space);
+  border-top: 0;
+  border-radius: var(--cosense-radius) var(--cosense-radius) calc(var(--cosense-radius) - 1px) calc(var(--cosense-radius) - 1px);
+  /* Cover the card's 1px border beside and below the region. */
   box-shadow: -1px 0 0 var(--cosense-canvas), 1px 0 0 var(--cosense-canvas), 0 1px 0 var(--cosense-canvas);
 }
 
-.workspace-split.mod-root .markdown-source-view.mod-cm6 .cm-sizer > .embedded-backlinks + .twohop-links-container--inline {
+.workspace-split.mod-root .markdown-source-view.mod-cm6 .cm-sizer > .embedded-backlinks {
+  padding: var(--cosense-related-gap) var(--cosense-card-pad-x) calc(var(--cosense-related-gap) + var(--cosense-related-bottom-space)) !important;
+}
+
+.workspace-split.mod-root .markdown-source-view.mod-cm6 .cm-sizer > .twohop-links-container--inline {
+  padding: var(--cosense-related-gap) 0 var(--cosense-related-bottom-space);
+}
+
+/* Visible backlinks followed by 2Hop: one continuous blue region. */
+.workspace-split.mod-root .markdown-source-view.mod-cm6 .cm-sizer > .embedded-backlinks:not([style*="display: none"]):has(+ .twohop-links-container--inline) {
+  padding-bottom: var(--cosense-related-gap) !important;
+  border-radius: var(--cosense-radius) var(--cosense-radius) 0 0;
+}
+
+.workspace-split.mod-root .markdown-source-view.mod-cm6 .cm-sizer > .embedded-backlinks:not([style*="display: none"]) + .twohop-links-container--inline {
   padding-top: 0;
+  border-radius: 0 0 calc(var(--cosense-radius) - 1px) calc(var(--cosense-radius) - 1px);
 }
 
 /* 7. Hover previews: compact note cards with a theme-colored ring */
@@ -890,20 +918,4 @@ body .popover.hover-popover :is(.view-header-title, .view-header-title-container
   background: transparent !important;
   color: var(--cosense-mobile-control-muted-text) !important;
   opacity: 1 !important;
-}
-
-/* 11. Narrow windows */
-
-@media (max-width: 720px) {
-  body {
-    --cosense-card-pad-x: 18px;
-    --cosense-card-pad-y: 24px;
-    --cosense-note-width: 100%;
-    --cosense-note-side-gap: 20px;
-  }
-
-  .markdown-preview-view .markdown-preview-sizer,
-  .markdown-source-view.mod-cm6 .cm-sizer {
-    margin: 14px auto 28px !important;
-  }
 }

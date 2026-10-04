@@ -14,13 +14,19 @@ All notable changes to this project will be documented in this file.
 
 - Set the lit icon color of 2Hop Links Plus 0.49.0's round header button through `--twohop-elevator-lit` (light `#1a7f26`, 5.1:1 on its white face; dark `#7ed67a`), since the default accent green was faint. The mobile header-button overrides no longer repaint that button.
 
+- Backlinks and 2Hop regions are now added below the card's bottom padding instead of replacing it, so the text area and the white space under it no longer change when they render after the note opens. In reading view the footer's padding repeats the card's bottom padding and the backlinks inside it are the blue region; in Live Preview each region opens and closes with matching margins in the flex-column `.cm-sizer`. This relies on Obsidian 1.13.7 creating `.mod-footer` on demand and laying out `.cm-sizer` as a flex column.
+- Card padding and margins scale with the window width between the previous phone and desktop values instead of switching at 720px. The largest change between widths 20px apart is now under 1px (previously 30px at 720px). The card's top and bottom margins on phones are now the intended 14px and 28px; an earlier override never applied them.
+
 ### Fixed
 
+- A hidden backlinks element in Live Preview no longer removes the top padding and rounded corners of the 2Hop region after it.
 - Links in the reading-view backlinks under a note now use the light link color of the blue region, as they already did in Live Preview, instead of blue on blue.
 - External links in Live Preview no longer turn Obsidian's purple accent color on hover.
 
 ### Verified
 
+- Measured the white gap between the note text and the first region before and after inserting backlinks, 2Hop, both, and hidden backlinks with 2Hop, in reading view and Live Preview at 1280, 700, and 390px: the gap stays equal to the card's bottom padding (it previously dropped to 0 in Live Preview and grew from 44 to 88px in reading view).
+- Measured paint and layout time while changing line heights in a 3,000-line Live Preview fixture with and without this snippet: layout and pre-paint time are the same within run-to-run noise, and the card shadow adds about 0.1ms of raster time per frame. The snippet is not the main cost of Live Preview scrolling or typing, so the shadow is unchanged.
 - Compared computed styles of every element in a fixture of Obsidian 1.13.7 DOM (tabs, sidebars, note header, reading and Live Preview content, backlinks, 2Hop regions, hover previews, mobile drawer) before and after the reorganization, in light and dark, desktop and tablet classes, at 1280 and 700px, including forced hover on links, tabs, and header buttons.
 - Checked tab colors, contrast (active 6.95:1 light / 5.03:1 dark, inactive 4.80:1 light), corner rendering at 3x zoom, and the join with the note header in light and dark themes with Obsidian 1.13.7's `app.css` in a local test page. Not yet checked inside Obsidian; tablet tab bars are unverified.
 
