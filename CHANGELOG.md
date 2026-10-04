@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Changed
+
+- Gave every button on the green note header one icon color and hover: Obsidian's back/forward buttons (previously `--text-muted` gray), PalmWiki Home's header buttons, and view actions now use the top-bar text color, with a darker translucent hover. Disabled back/forward keep Obsidian's reduced opacity.
+
+### Verified
+
+- Checked the header icon colors, hover, and title centering at 600, 800, and 1200px in light and dark themes with Obsidian 1.13.7's `app.css`, PalmWiki Home 1.11.0, and 2Hop Links Plus 0.48.2 in a local test page. Not yet checked inside Obsidian.
+
+### Fixed
+
+- Corrected the Obsidian version in the 0.2.3 and 0.2.4 notes: the running app was 1.13.7, not 1.12.7.
+
 ## [0.2.4] - 2026-10-04
 
 ### Changed
@@ -12,7 +24,7 @@ All notable changes to this project will be documented in this file.
 
 ### Verified
 
-- Confirmed the light-theme hover tint in Obsidian 1.12.7 on macOS.
+- Confirmed the light-theme hover tint in Obsidian 1.13.7 on macOS.
 
 ## [0.2.3] - 2026-10-04
 
@@ -23,7 +35,7 @@ All notable changes to this project will be documented in this file.
 ### Verified
 
 - Checked the resolved card colors and sizes in light and dark themes, and the narrow branches, with the 2Hop Links Plus 0.45.0 and PalmWiki Home 1.5.1 stylesheets in a local test page with fictional cards.
-- Confirmed 2Hop Links Plus 0.45.1 and PalmWiki Home 1.5.1 cards in Obsidian 1.12.7 on macOS with the default light and dark themes.
+- Confirmed 2Hop Links Plus 0.45.1 and PalmWiki Home 1.5.1 cards in Obsidian 1.13.7 on macOS with the default light and dark themes.
 
 ## [0.2.2] - 2026-10-04
 

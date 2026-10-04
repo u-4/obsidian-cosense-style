@@ -374,6 +374,22 @@ body,
   color: var(--cosense-topbar-text);
 }
 
+/*
+  One icon color and hover for every button on the green note header:
+  Obsidian's back/forward, PalmWiki Home's header buttons, and view actions.
+  Without this, back/forward fall back to --text-muted gray on the green.
+*/
+.mod-root .view-header {
+  --icon-color: var(--cosense-topbar-text);
+  --icon-color-hover: var(--cosense-topbar-text);
+  --icon-color-focused: var(--cosense-topbar-text);
+  --background-modifier-hover: rgba(0, 0, 0, 0.14);
+}
+
+.mod-root .view-header .clickable-icon[aria-disabled="true"] {
+  color: var(--cosense-topbar-text);
+}
+
 .markdown-preview-view,
 .markdown-source-view.mod-cm6 {
   --file-line-width: var(--cosense-note-width);

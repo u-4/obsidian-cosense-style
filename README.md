@@ -38,7 +38,7 @@ Cosense（旧Scrapbox）の表示に着想を得た、Obsidian用の非公式CSS
 
 このスニペットは、以下の環境で調整・確認しています。
 
-- Obsidian 1.12.7
+- Obsidian 1.13.7
 - macOS
 - iOS / iPadOS
 - Obsidian標準のライトテーマ／ダークテーマ
