@@ -12,6 +12,8 @@ All notable changes to this project will be documented in this file.
 
 - Reorganized the snippet into numbered sections and moved link styling onto Obsidian's `--link-*` variables, which removed most `!important` overrides outside the mobile section (108 to 70) and five unused color tokens. Computed styles are unchanged except for the fixes listed under Fixed.
 
+- Set the lit icon color of 2Hop Links Plus 0.49.0's round header button through `--twohop-elevator-lit` (light `#1a7f26`, 5.1:1 on its white face; dark `#7ed67a`), since the default accent green was faint. The mobile header-button overrides no longer repaint that button.
+
 ### Fixed
 
 - Links in the reading-view backlinks under a note now use the light link color of the blue region, as they already did in Live Preview, instead of blue on blue.

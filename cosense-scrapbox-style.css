@@ -79,6 +79,7 @@ body {
   --cosense-code-title-bg: #ffcfc6;
   --cosense-quote-bg: #f0f3f6;
   --cosense-highlight: #ffcc33;
+  --cosense-elevator-lit: #1a7f26;
 }
 
 .theme-dark {
@@ -124,6 +125,7 @@ body {
   --cosense-code-title-bg: #513c3b;
   --cosense-quote-bg: #2d2f37;
   --cosense-highlight: #ffc93c;
+  --cosense-elevator-lit: #7ed67a;
 }
 
 /* 2. Obsidian variables mapped to the palette */
@@ -407,6 +409,14 @@ body,
   --twohop-toolbar-text: var(--cosense-text);
   --twohop-toolbar-border: var(--cosense-card-border);
   --twohop-surface-muted: var(--cosense-side-muted);
+}
+
+/*
+  2Hop's round button on the note header (0.49.0+) lights its icon while the
+  related links are in view. The default accent green is too faint on its face.
+*/
+body {
+  --twohop-elevator-lit: var(--cosense-elevator-lit);
 }
 
 /* Keep the 2Hop-owned sort popup readable without recoloring other menus. */
@@ -794,7 +804,7 @@ body .popover.hover-popover :is(.view-header-title, .view-header-title-container
   box-shadow: none !important;
 }
 
-.is-mobile .mod-root .view-header .view-actions :is(.view-action, .clickable-icon),
+.is-mobile .mod-root .view-header .view-actions :is(.view-action, .clickable-icon):not(.twohop-links-scroll-toggle),
 .is-mobile :is(.sidebar-toggle-button, .mobile-sidebar-toggle, .workspace-drawer-toggle) {
   background: var(--cosense-mobile-control) !important;
   border: 1px solid color-mix(in srgb, var(--cosense-mobile-control-strong), transparent 20%) !important;
@@ -802,7 +812,7 @@ body .popover.hover-popover :is(.view-header-title, .view-header-title-container
   color: var(--cosense-mobile-control-text) !important;
 }
 
-.is-mobile .mod-root .view-header .view-actions :is(.view-action, .clickable-icon) svg,
+.is-mobile .mod-root .view-header .view-actions :is(.view-action, .clickable-icon):not(.twohop-links-scroll-toggle) svg,
 .is-mobile :is(.sidebar-toggle-button, .mobile-sidebar-toggle, .workspace-drawer-toggle) svg {
   color: var(--cosense-mobile-control-text) !important;
   opacity: 1 !important;
