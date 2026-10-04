@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-10-04
+
 ### Changed
 
 - Rebuilt the tab bar on Obsidian's own `--tab-*` variables. The bar is a deeper green, inactive tabs have no fill and white text, and the active tab takes the note header's top color with dark bold text, so it reads as one piece with the header below. The header no longer draws a top border between them.
@@ -28,7 +30,8 @@ All notable changes to this project will be documented in this file.
 - Measured the white gap between the note text and the first region before and after inserting backlinks, 2Hop, both, and hidden backlinks with 2Hop, in reading view and Live Preview at 1280, 700, and 390px: the gap stays equal to the card's bottom padding (it previously dropped to 0 in Live Preview and grew from 44 to 88px in reading view).
 - Measured paint and layout time while changing line heights in a 3,000-line Live Preview fixture with and without this snippet: layout and pre-paint time are the same within run-to-run noise, and the card shadow adds about 0.1ms of raster time per frame. The snippet is not the main cost of Live Preview scrolling or typing, so the shadow is unchanged.
 - Compared computed styles of every element in a fixture of Obsidian 1.13.7 DOM (tabs, sidebars, note header, reading and Live Preview content, backlinks, 2Hop regions, hover previews, mobile drawer) before and after the reorganization, in light and dark, desktop and tablet classes, at 1280 and 700px, including forced hover on links, tabs, and header buttons.
-- Checked tab colors, contrast (active 6.95:1 light / 5.03:1 dark, inactive 4.80:1 light), corner rendering at 3x zoom, and the join with the note header in light and dark themes with Obsidian 1.13.7's `app.css` in a local test page. Not yet checked inside Obsidian; tablet tab bars are unverified.
+- Checked tab colors, contrast (active 6.95:1 light / 5.03:1 dark, inactive 4.80:1 light), corner rendering at 3x zoom, and the join with the note header in light and dark themes with Obsidian 1.13.7's `app.css` in a local test page.
+- Confirmed the tabs, note header, related regions, and resizing in Obsidian 1.13.7 on macOS with the default light and dark themes. Phone and tablet layouts are unverified.
 
 ## [0.2.5] - 2026-10-04
 
