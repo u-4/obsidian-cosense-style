@@ -801,6 +801,25 @@ body .popover.hover-popover :is(.view-header-title, .view-header-title-container
 
 /* 10. Mobile and tablet */
 
+/*
+  On phones and tablets Obsidian paints prompts (command palette, quick
+  switcher, plugin search screens), suggestion popups, settings and buttons
+  with --background-secondary, which here is the blue canvas, and blurs what
+  is behind prompts and suggestions. Dark text on the canvas was hard to read
+  and the notes showed through. Use the card color instead, without the blur.
+  body.is-mobile is needed to win over Obsidian's own .is-mobile values.
+*/
+body.is-mobile {
+  --prompt-background: var(--background-primary);
+  --prompt-backdrop-filter: none;
+  --suggestion-background: var(--background-primary);
+  --suggestion-backdrop-filter: none;
+  --settings-background: var(--background-primary);
+  --setting-items-background: var(--background-primary);
+  --settings-home-background: var(--background-primary);
+  --interactive-normal: var(--background-primary);
+}
+
 .is-mobile :is(.titlebar, .titlebar-inner, .mobile-navbar, .mobile-toolbar, .mobile-toolbar-options-container, .workspace-drawer-header, .workspace-drawer-ribbon) {
   background: var(--cosense-titlebar);
   color: var(--cosense-topbar-text);

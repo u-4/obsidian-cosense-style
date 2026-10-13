@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-10-13
+
+### Fixed
+
+- On phones and tablets, prompts (command palette, quick switcher, plugin search screens), suggestion popups, the settings screen and buttons used Obsidian's mobile `--background-secondary`, which this snippet maps to the blue canvas, and prompts and suggestions also blurred what was behind them. They now use the card color without the blur, so the text is readable and notes no longer show through (seen on the iPad).
+
 ## [0.3.0] - 2026-10-04
 
 ### Changed
