@@ -41,6 +41,21 @@ body {
   --cosense-preview-frame-width: 4px;
   --cosense-related-gap: 24px;
   --cosense-related-bottom-space: 55px;
+  /* List threads: line width, corner, and where the line sits in its column. */
+  --cosense-thread-width: 1.5px;
+  --cosense-thread-radius: 0.55em;
+  /* Live Preview: a bullet's center is the marker padding plus half a dash from its column. */
+  --cosense-thread-offset: calc(var(--list-indent-editing, 0.75em) + 0.22em - var(--cosense-thread-width) / 2);
+  --cosense-thread-reach: calc(var(--list-indent) - 0.3em);
+  --cosense-thread-lp-drop: calc(var(--list-spacing) + 0.5lh - 0.18em);
+  /* From just below a parent's bullet up to the next line's top. */
+  --cosense-thread-lp-rise: calc(1lh + 2 * var(--list-spacing) - var(--cosense-thread-lp-drop) - 0.5em);
+  /* Obsidian's own Live Preview guides, moved under the bullets so they line up with the thread. */
+  --indentation-guide-editing-indent: calc(var(--list-indent-editing, 0.75em) + 0.22em - 0.5px);
+  /* Reading view: a bullet's center is 0.8em left of its item, the parent's one indent further. */
+  --cosense-thread-reading-x: calc(-1 * var(--list-indent) - 0.8em - var(--cosense-thread-width) / 2);
+  --cosense-thread-reading-reach: calc(var(--list-indent) - 0.3em);
+  --cosense-thread-reading-rise: calc(0.5lh - 0.5em);
 }
 
 .theme-light {
@@ -86,7 +101,12 @@ body {
   --cosense-code-title-bg: #ffcfc6;
   --cosense-quote-bg: #f0f3f6;
   --cosense-quote-border: #a8a8a8;
-  --cosense-highlight: #ffcc33;
+  --cosense-highlight: #ff8c00;
+  --cosense-bold: #4682b4;
+  --cosense-thread: #2777e5;
+  --cosense-table-header: rgba(70, 130, 180, 0.16);
+  --cosense-table-header-border: rgba(70, 130, 180, 0.32);
+  --cosense-table-stripe: rgba(128, 128, 128, 0.075);
   --cosense-done-stamp: rgba(214, 69, 65, 0.5);
   --cosense-elevator-lit: #1a7f26;
 }
@@ -134,7 +154,12 @@ body {
   --cosense-code-title-bg: #513c3b;
   --cosense-quote-bg: #2d2f37;
   --cosense-quote-border: #6e7380;
-  --cosense-highlight: #ffc93c;
+  --cosense-highlight: rgba(255, 140, 0, 0.8);
+  --cosense-bold: #8ab4dc;
+  --cosense-thread: #81c9fe;
+  --cosense-table-header: rgba(110, 165, 220, 0.2);
+  --cosense-table-header-border: rgba(110, 165, 220, 0.38);
+  --cosense-table-stripe: rgba(160, 160, 160, 0.09);
   --cosense-done-stamp: rgba(255, 138, 128, 0.45);
   --cosense-elevator-lit: #7ed67a;
 }
@@ -149,6 +174,13 @@ body {
   --text-muted: var(--cosense-muted);
   --interactive-accent: var(--cosense-tab-active);
   --interactive-accent-hover: var(--cosense-tab-active-strong);
+  /* Cosense's colored bold, and table stripes with a tinted header row. */
+  --bold-color: var(--cosense-bold);
+  --table-header-background: var(--cosense-table-header);
+  --table-header-background-hover: var(--cosense-table-header);
+  --table-header-border-color: var(--cosense-table-header-border);
+  --table-row-alt-background: var(--cosense-table-stripe);
+  --table-row-alt-background-hover: var(--cosense-table-stripe);
   --ribbon-background: var(--cosense-side-deep);
   --ribbon-background-collapsed: var(--cosense-side-deep);
 
@@ -434,6 +466,7 @@ body,
   --link-color: #eef6ff;
   --link-color-hover: #ffffff;
   --link-unresolved-color: #ffe7eb;
+  --bold-color: inherit;
   color: var(--cosense-side-text);
 }
 
@@ -611,11 +644,11 @@ body .popover.hover-popover :is(.view-header-title, .view-header-title-container
   letter-spacing: 0;
 }
 
+/* ==Highlight== as Cosense's marker: a band through the middle of the line. */
 .markdown-preview-view mark,
 .markdown-source-view.mod-cm6 .cm-highlight {
-  background: var(--cosense-highlight);
+  background: linear-gradient(transparent 10%, var(--cosense-highlight) 25%, var(--cosense-highlight) 70%, transparent 90%);
   color: #202124;
-  border-radius: 2px;
   padding: 0 0.15em;
 }
 
@@ -949,6 +982,154 @@ body .popover.hover-popover :is(.view-header-title, .view-header-title-container
 }
 
 /* link-icons:end */
+
+/*
+  Lists: bullets fade a little with depth so the depth reads at a glance, and
+  the items on the path to the current one are joined by a line, like
+  Logseq's bullet threading. In Live Preview the path follows the cursor
+  (desktop only, list depths 1-6); in reading view it follows the pointer.
+*/
+.markdown-rendered ul ul .list-bullet::after,
+.markdown-source-view.mod-cm6 .HyperMD-list-line-2 .list-bullet::after {
+  opacity: 0.85;
+}
+
+.markdown-rendered ul ul ul .list-bullet::after,
+.markdown-source-view.mod-cm6 .HyperMD-list-line-3 .list-bullet::after {
+  opacity: 0.7;
+}
+
+.markdown-rendered ul ul ul ul .list-bullet::after,
+.markdown-source-view.mod-cm6 :is(.HyperMD-list-line-4, .HyperMD-list-line-5, .HyperMD-list-line-6, .HyperMD-list-line-7, .HyperMD-list-line-8) .list-bullet::after {
+  opacity: 0.55;
+}
+
+/* Live Preview: each thread piece is the ::after of an indent span, placed from the line's start. */
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .cm-hmd-list-indent > .cm-indent::after {
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+/* list-threads:start (generated by scripts/build-list-threads.mjs) */
+
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .cm-active.HyperMD-list-line:not(.HyperMD-list-line-nobullet) .list-bullet::after,
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .HyperMD-list-line-1:not(.HyperMD-list-line-nobullet):has(~ .cm-active.HyperMD-list-line:not(.HyperMD-list-line-1)):not(:has(~ :is(.HyperMD-list-line-1):not(.HyperMD-list-line-nobullet) ~ .cm-active)) .list-bullet::after,
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .HyperMD-list-line-2:not(.HyperMD-list-line-nobullet):has(~ .cm-active.HyperMD-list-line:not(.HyperMD-list-line-1, .HyperMD-list-line-2)):not(:has(~ :is(.HyperMD-list-line-1, .HyperMD-list-line-2):not(.HyperMD-list-line-nobullet) ~ .cm-active)) .list-bullet::after,
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .HyperMD-list-line-3:not(.HyperMD-list-line-nobullet):has(~ .cm-active.HyperMD-list-line:not(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3)):not(:has(~ :is(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3):not(.HyperMD-list-line-nobullet) ~ .cm-active)) .list-bullet::after,
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .HyperMD-list-line-4:not(.HyperMD-list-line-nobullet):has(~ .cm-active.HyperMD-list-line:not(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3, .HyperMD-list-line-4)):not(:has(~ :is(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3, .HyperMD-list-line-4):not(.HyperMD-list-line-nobullet) ~ .cm-active)) .list-bullet::after,
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .HyperMD-list-line-5:not(.HyperMD-list-line-nobullet):has(~ .cm-active.HyperMD-list-line:not(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3, .HyperMD-list-line-4, .HyperMD-list-line-5)):not(:has(~ :is(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3, .HyperMD-list-line-4, .HyperMD-list-line-5):not(.HyperMD-list-line-nobullet) ~ .cm-active)) .list-bullet::after {
+  background-color: var(--cosense-thread);
+  opacity: 1;
+}
+
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .HyperMD-list-line:not(.HyperMD-list-line-1):has(~ .HyperMD-list-line-2:not(.HyperMD-list-line-nobullet) ~ .cm-active.HyperMD-list-line:not(.HyperMD-list-line-1)):not(:has(~ :is(.HyperMD-list-line-1):not(.HyperMD-list-line-nobullet) ~ .cm-active)) .cm-hmd-list-indent > .cm-indent:nth-child(1)::after,
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .HyperMD-list-line:not(.HyperMD-list-line-1):has(~ .cm-active.HyperMD-list-line-2):not(:has(~ :is(.HyperMD-list-line-1):not(.HyperMD-list-line-nobullet) ~ .cm-active)) .cm-hmd-list-indent > .cm-indent:nth-child(1)::after,
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .HyperMD-list-line:not(.HyperMD-list-line-1, .HyperMD-list-line-2):has(~ .HyperMD-list-line-3:not(.HyperMD-list-line-nobullet) ~ .cm-active.HyperMD-list-line:not(.HyperMD-list-line-1, .HyperMD-list-line-2)):not(:has(~ :is(.HyperMD-list-line-1, .HyperMD-list-line-2):not(.HyperMD-list-line-nobullet) ~ .cm-active)) .cm-hmd-list-indent > .cm-indent:nth-child(2)::after,
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .HyperMD-list-line:not(.HyperMD-list-line-1, .HyperMD-list-line-2):has(~ .cm-active.HyperMD-list-line-3):not(:has(~ :is(.HyperMD-list-line-1, .HyperMD-list-line-2):not(.HyperMD-list-line-nobullet) ~ .cm-active)) .cm-hmd-list-indent > .cm-indent:nth-child(2)::after,
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .HyperMD-list-line:not(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3):has(~ .HyperMD-list-line-4:not(.HyperMD-list-line-nobullet) ~ .cm-active.HyperMD-list-line:not(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3)):not(:has(~ :is(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3):not(.HyperMD-list-line-nobullet) ~ .cm-active)) .cm-hmd-list-indent > .cm-indent:nth-child(3)::after,
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .HyperMD-list-line:not(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3):has(~ .cm-active.HyperMD-list-line-4):not(:has(~ :is(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3):not(.HyperMD-list-line-nobullet) ~ .cm-active)) .cm-hmd-list-indent > .cm-indent:nth-child(3)::after,
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .HyperMD-list-line:not(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3, .HyperMD-list-line-4):has(~ .HyperMD-list-line-5:not(.HyperMD-list-line-nobullet) ~ .cm-active.HyperMD-list-line:not(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3, .HyperMD-list-line-4)):not(:has(~ :is(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3, .HyperMD-list-line-4):not(.HyperMD-list-line-nobullet) ~ .cm-active)) .cm-hmd-list-indent > .cm-indent:nth-child(4)::after,
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .HyperMD-list-line:not(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3, .HyperMD-list-line-4):has(~ .cm-active.HyperMD-list-line-5):not(:has(~ :is(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3, .HyperMD-list-line-4):not(.HyperMD-list-line-nobullet) ~ .cm-active)) .cm-hmd-list-indent > .cm-indent:nth-child(4)::after,
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .HyperMD-list-line:not(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3, .HyperMD-list-line-4, .HyperMD-list-line-5):has(~ .HyperMD-list-line-6:not(.HyperMD-list-line-nobullet) ~ .cm-active.HyperMD-list-line:not(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3, .HyperMD-list-line-4, .HyperMD-list-line-5)):not(:has(~ :is(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3, .HyperMD-list-line-4, .HyperMD-list-line-5):not(.HyperMD-list-line-nobullet) ~ .cm-active)) .cm-hmd-list-indent > .cm-indent:nth-child(5)::after,
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .HyperMD-list-line:not(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3, .HyperMD-list-line-4, .HyperMD-list-line-5):has(~ .cm-active.HyperMD-list-line-6):not(:has(~ :is(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3, .HyperMD-list-line-4, .HyperMD-list-line-5):not(.HyperMD-list-line-nobullet) ~ .cm-active)) .cm-hmd-list-indent > .cm-indent:nth-child(5)::after {
+  content: "";
+  top: 0;
+  bottom: 0;
+  border-inline-start: var(--cosense-thread-width) solid var(--cosense-thread);
+}
+
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .cm-active.HyperMD-list-line-2:not(.HyperMD-list-line-nobullet) .cm-hmd-list-indent > .cm-indent:nth-child(1)::after,
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .HyperMD-list-line-2:not(.HyperMD-list-line-nobullet):has(~ .cm-active.HyperMD-list-line:not(.HyperMD-list-line-1, .HyperMD-list-line-2)):not(:has(~ :is(.HyperMD-list-line-1, .HyperMD-list-line-2):not(.HyperMD-list-line-nobullet) ~ .cm-active)) .cm-hmd-list-indent > .cm-indent:nth-child(1)::after,
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .cm-active.HyperMD-list-line-3:not(.HyperMD-list-line-nobullet) .cm-hmd-list-indent > .cm-indent:nth-child(2)::after,
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .HyperMD-list-line-3:not(.HyperMD-list-line-nobullet):has(~ .cm-active.HyperMD-list-line:not(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3)):not(:has(~ :is(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3):not(.HyperMD-list-line-nobullet) ~ .cm-active)) .cm-hmd-list-indent > .cm-indent:nth-child(2)::after,
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .cm-active.HyperMD-list-line-4:not(.HyperMD-list-line-nobullet) .cm-hmd-list-indent > .cm-indent:nth-child(3)::after,
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .HyperMD-list-line-4:not(.HyperMD-list-line-nobullet):has(~ .cm-active.HyperMD-list-line:not(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3, .HyperMD-list-line-4)):not(:has(~ :is(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3, .HyperMD-list-line-4):not(.HyperMD-list-line-nobullet) ~ .cm-active)) .cm-hmd-list-indent > .cm-indent:nth-child(3)::after,
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .cm-active.HyperMD-list-line-5:not(.HyperMD-list-line-nobullet) .cm-hmd-list-indent > .cm-indent:nth-child(4)::after,
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .HyperMD-list-line-5:not(.HyperMD-list-line-nobullet):has(~ .cm-active.HyperMD-list-line:not(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3, .HyperMD-list-line-4, .HyperMD-list-line-5)):not(:has(~ :is(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3, .HyperMD-list-line-4, .HyperMD-list-line-5):not(.HyperMD-list-line-nobullet) ~ .cm-active)) .cm-hmd-list-indent > .cm-indent:nth-child(4)::after,
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .cm-active.HyperMD-list-line-6:not(.HyperMD-list-line-nobullet) .cm-hmd-list-indent > .cm-indent:nth-child(5)::after {
+  content: "";
+  top: 0;
+  height: var(--cosense-thread-lp-drop);
+  width: var(--cosense-thread-reach);
+  border-inline-start: var(--cosense-thread-width) solid var(--cosense-thread);
+  border-bottom: var(--cosense-thread-width) solid var(--cosense-thread);
+  border-end-start-radius: var(--cosense-thread-radius);
+}
+
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .HyperMD-list-line-1:not(.HyperMD-list-line-nobullet):has(~ .cm-active.HyperMD-list-line:not(.HyperMD-list-line-1)):not(:has(~ :is(.HyperMD-list-line-1):not(.HyperMD-list-line-nobullet) ~ .cm-active)) + .cm-line .cm-hmd-list-indent > .cm-indent:nth-child(1)::after,
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .HyperMD-list-line-2:not(.HyperMD-list-line-nobullet):has(~ .cm-active.HyperMD-list-line:not(.HyperMD-list-line-1, .HyperMD-list-line-2)):not(:has(~ :is(.HyperMD-list-line-1, .HyperMD-list-line-2):not(.HyperMD-list-line-nobullet) ~ .cm-active)) + .cm-line .cm-hmd-list-indent > .cm-indent:nth-child(2)::after,
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .HyperMD-list-line-3:not(.HyperMD-list-line-nobullet):has(~ .cm-active.HyperMD-list-line:not(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3)):not(:has(~ :is(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3):not(.HyperMD-list-line-nobullet) ~ .cm-active)) + .cm-line .cm-hmd-list-indent > .cm-indent:nth-child(3)::after,
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .HyperMD-list-line-4:not(.HyperMD-list-line-nobullet):has(~ .cm-active.HyperMD-list-line:not(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3, .HyperMD-list-line-4)):not(:has(~ :is(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3, .HyperMD-list-line-4):not(.HyperMD-list-line-nobullet) ~ .cm-active)) + .cm-line .cm-hmd-list-indent > .cm-indent:nth-child(4)::after,
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .HyperMD-list-line-5:not(.HyperMD-list-line-nobullet):has(~ .cm-active.HyperMD-list-line:not(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3, .HyperMD-list-line-4, .HyperMD-list-line-5)):not(:has(~ :is(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3, .HyperMD-list-line-4, .HyperMD-list-line-5):not(.HyperMD-list-line-nobullet) ~ .cm-active)) + .cm-line .cm-hmd-list-indent > .cm-indent:nth-child(5)::after {
+  top: calc(-1 * var(--cosense-thread-lp-rise));
+}
+
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .HyperMD-list-line-1:not(.HyperMD-list-line-nobullet):has(~ .cm-active.HyperMD-list-line:not(.HyperMD-list-line-1)):not(:has(~ :is(.HyperMD-list-line-1):not(.HyperMD-list-line-nobullet) ~ .cm-active)) + :is(.cm-active.HyperMD-list-line-2:not(.HyperMD-list-line-nobullet), .HyperMD-list-line-2:not(.HyperMD-list-line-nobullet):has(~ .cm-active.HyperMD-list-line:not(.HyperMD-list-line-1, .HyperMD-list-line-2)):not(:has(~ :is(.HyperMD-list-line-1, .HyperMD-list-line-2):not(.HyperMD-list-line-nobullet) ~ .cm-active))) .cm-hmd-list-indent > .cm-indent:nth-child(1)::after,
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .HyperMD-list-line-2:not(.HyperMD-list-line-nobullet):has(~ .cm-active.HyperMD-list-line:not(.HyperMD-list-line-1, .HyperMD-list-line-2)):not(:has(~ :is(.HyperMD-list-line-1, .HyperMD-list-line-2):not(.HyperMD-list-line-nobullet) ~ .cm-active)) + :is(.cm-active.HyperMD-list-line-3:not(.HyperMD-list-line-nobullet), .HyperMD-list-line-3:not(.HyperMD-list-line-nobullet):has(~ .cm-active.HyperMD-list-line:not(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3)):not(:has(~ :is(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3):not(.HyperMD-list-line-nobullet) ~ .cm-active))) .cm-hmd-list-indent > .cm-indent:nth-child(2)::after,
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .HyperMD-list-line-3:not(.HyperMD-list-line-nobullet):has(~ .cm-active.HyperMD-list-line:not(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3)):not(:has(~ :is(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3):not(.HyperMD-list-line-nobullet) ~ .cm-active)) + :is(.cm-active.HyperMD-list-line-4:not(.HyperMD-list-line-nobullet), .HyperMD-list-line-4:not(.HyperMD-list-line-nobullet):has(~ .cm-active.HyperMD-list-line:not(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3, .HyperMD-list-line-4)):not(:has(~ :is(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3, .HyperMD-list-line-4):not(.HyperMD-list-line-nobullet) ~ .cm-active))) .cm-hmd-list-indent > .cm-indent:nth-child(3)::after,
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .HyperMD-list-line-4:not(.HyperMD-list-line-nobullet):has(~ .cm-active.HyperMD-list-line:not(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3, .HyperMD-list-line-4)):not(:has(~ :is(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3, .HyperMD-list-line-4):not(.HyperMD-list-line-nobullet) ~ .cm-active)) + :is(.cm-active.HyperMD-list-line-5:not(.HyperMD-list-line-nobullet), .HyperMD-list-line-5:not(.HyperMD-list-line-nobullet):has(~ .cm-active.HyperMD-list-line:not(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3, .HyperMD-list-line-4, .HyperMD-list-line-5)):not(:has(~ :is(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3, .HyperMD-list-line-4, .HyperMD-list-line-5):not(.HyperMD-list-line-nobullet) ~ .cm-active))) .cm-hmd-list-indent > .cm-indent:nth-child(4)::after,
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .HyperMD-list-line-5:not(.HyperMD-list-line-nobullet):has(~ .cm-active.HyperMD-list-line:not(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3, .HyperMD-list-line-4, .HyperMD-list-line-5)):not(:has(~ :is(.HyperMD-list-line-1, .HyperMD-list-line-2, .HyperMD-list-line-3, .HyperMD-list-line-4, .HyperMD-list-line-5):not(.HyperMD-list-line-nobullet) ~ .cm-active)) + :is(.cm-active.HyperMD-list-line-6:not(.HyperMD-list-line-nobullet)) .cm-hmd-list-indent > .cm-indent:nth-child(5)::after {
+  height: calc(var(--cosense-thread-lp-drop) + var(--cosense-thread-lp-rise));
+}
+
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .cm-hmd-list-indent > .cm-indent:nth-child(1)::after {
+  inset-inline-start: calc(0 * var(--list-indent) + var(--cosense-thread-offset));
+}
+
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .cm-hmd-list-indent > .cm-indent:nth-child(2)::after {
+  inset-inline-start: calc(1 * var(--list-indent) + var(--cosense-thread-offset));
+}
+
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .cm-hmd-list-indent > .cm-indent:nth-child(3)::after {
+  inset-inline-start: calc(2 * var(--list-indent) + var(--cosense-thread-offset));
+}
+
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .cm-hmd-list-indent > .cm-indent:nth-child(4)::after {
+  inset-inline-start: calc(3 * var(--list-indent) + var(--cosense-thread-offset));
+}
+
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .cm-hmd-list-indent > .cm-indent:nth-child(5)::after {
+  inset-inline-start: calc(4 * var(--list-indent) + var(--cosense-thread-offset));
+}
+
+/* list-threads:end */
+
+/* Reading view: the hovered item and its ancestors. */
+.markdown-rendered li:hover > .list-bullet::after {
+  background-color: var(--cosense-thread);
+  opacity: 1;
+}
+
+.markdown-rendered li:hover > :is(ul, ol) > li:is(:hover, :has(~ li:hover))::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: var(--cosense-thread-reading-x);
+  top: 0;
+  box-sizing: border-box;
+  border-inline-start: var(--cosense-thread-width) solid var(--cosense-thread);
+  pointer-events: none;
+}
+
+.markdown-rendered li:hover > :is(ul, ol) > li:has(~ li:hover)::before {
+  bottom: 0;
+}
+
+.markdown-rendered li:hover > :is(ul, ol) > li:hover::before {
+  height: calc(var(--list-spacing) + 0.5lh);
+  width: var(--cosense-thread-reading-reach);
+  border-bottom: var(--cosense-thread-width) solid var(--cosense-thread);
+  border-end-start-radius: var(--cosense-thread-radius);
+}
+
+/* The first child's piece reaches up to just below the parent's bullet. */
+.markdown-rendered li:hover > :is(ul, ol) > li:first-child:is(:hover, :has(~ li:hover))::before {
+  top: calc(-1 * var(--cosense-thread-reading-rise));
+}
+
+.markdown-rendered li:hover > :is(ul, ol) > li:first-child:hover::before {
+  height: calc(var(--list-spacing) + 0.5lh + var(--cosense-thread-reading-rise));
+}
 
 /*
   Completed tasks: a pale red 処理済 stamp beside the first line, like Cosense's
