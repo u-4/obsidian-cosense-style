@@ -54,7 +54,7 @@ body {
   /* From just below a parent's bullet up to the next line's top. */
   --cosense-thread-lp-rise: calc(1lh + 2 * var(--list-spacing) - var(--cosense-thread-lp-drop) - var(--cosense-bullet-radius));
   /* Obsidian's own Live Preview guides, moved under the bullets so they line up with the thread. */
-  --indentation-guide-editing-indent: calc(var(--list-indent-editing, 0.75em) + 0.22em - 0.5px);
+  --indentation-guide-editing-indent: calc(var(--list-indent-editing, 0.75em) + 0.22em - 1.5px);
   /* Reading view: a bullet's center is 0.8em left of its item, the parent's one indent further. */
   --cosense-thread-reading-x: calc(-1 * var(--list-indent) - 0.8em - var(--cosense-thread-width) / 2);
   --cosense-thread-reading-reach: calc(var(--list-indent) - var(--cosense-bullet-radius) + var(--cosense-thread-width) / 2);
