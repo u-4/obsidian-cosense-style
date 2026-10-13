@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Added
+
+- Site and file-type icons before external links (and internal links to PDF, image, text and code files) in reading view and previews: X, GitHub, YouTube, Wikipedia, PubMed, DOI, Google Drive/Docs/Sheets/Slides/Maps/Calendar/Gmail, Google Scholar, Rakuten, Tabelog, Qiita, Hatena, note, Zenn, Dropbox, Facebook, Instagram, Notion, iCloud, LINE, Obsidian, Scrapbox, a book icon for major journal sites, UpToDate, Amazon, Gyazo, Japanese government sites, PDF, images, text and code files, mail. They replace the earlier text badges. Icons are SVG `data:` URLs painted in the link color through a mask; no network access. Live Preview links carry no URL attribute, so they get no icon. `scripts/build-link-icons.mjs` regenerates the section from the vendored SVGs (Simple Icons CC0, Lucide ISC).
+- Completed tasks (`data-task="x"`) get a pale red 処理済 stamp beside their first line, in reading view and Live Preview. It is positioned outside the text flow, sits in the card's side padding when it fits (desktop widths) and otherwise overlaps the line end, so checking a task moves no text.
+
+### Fixed
+
+- In the dark theme the accent color (checkboxes, toggles, buttons) was Obsidian's purple because Obsidian's `.theme-dark` rule outranked this snippet's mapping; it is now the green of the light theme. The iPad dark title bar uses the tab bar green for the same reason.
+- Removed the `--background-secondary-alt` mapping, which Obsidian's theme rules always overrode.
+
+### Verified
+
+- Checked icons, stamp placement and line heights (checked and unchecked task lines are the same height) in light and dark themes with Obsidian 1.14.4's `app.css` in a local test page with fictional links and tasks. Not yet checked inside Obsidian; phone and tablet unverified.
+
 ## [0.3.2] - 2026-10-14
 
 ### Changed

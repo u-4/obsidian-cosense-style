@@ -15,7 +15,8 @@ Cosense（旧Scrapbox）の表示に着想を得た、Obsidian用の非公式CSS
 - 幅の小さいリンク先プレビューでは内側のカード枠を外し、通常ノートカードと同じ背景・文字色、外周だけの均一な4px角丸リングで内容幅を確保
 - 任意のHover Editorプラグインを使う場合は、プレビューの上部バーをテーマ別の控えめなグレーに調整
 - 存在するノート、存在しないノート、外部リンクの配色分け
-- 外部URLとファイル種別に応じた簡易ラベル
+- 外部リンクの前に、サイト（X、GitHub、YouTube、Wikipedia、PubMed、Google ドライブなど）やファイル種別（PDF、画像など）を見分けるアイコン（閲覧モードとプレビュー）
+- 完了したタスクに、淡い赤の「処理済」ハンコ（文字の位置は動かさない）
 - タブ、タイトルバー、リボン、左右サイドバーの配色調整
 - デスクトップ、iPhone、iPad向けのレスポンシブ調整
 - コードブロック、引用、ハイライトの調整
@@ -38,7 +39,7 @@ Cosense（旧Scrapbox）の表示に着想を得た、Obsidian用の非公式CSS
 
 このスニペットは、以下の環境で調整・確認しています。
 
-- Obsidian 1.13.7
+- Obsidian 1.14.4
 - macOS
 - iOS / iPadOS
 - Obsidian標準のライトテーマ／ダークテーマ
@@ -78,6 +79,15 @@ Live Preview／Sourceでは、親カードの1px枠が関連領域の外側へ�
 ## Privacy
 
 このCSSは、外部フォント、外部画像、解析サービス、テレメトリーを読み込みません。`@import`、外部URL、`url()`によるネットワーク参照も使用していません。
+
+リンクのアイコンは、SVGを `data:` URL としてCSSに埋め込んでいます。表示のために外部へ通信することはありません。
+
+### リンクのアイコンの出典
+
+- ブランドのマーク：[Simple Icons](https://simpleicons.org/)（CC0）。各マークの権利は、それぞれの権利者にあります。
+- 一般のアイコン（PDF、画像、本、メールなど）：[Lucide](https://lucide.dev/)（ISC License。全文は `scripts/link-icons/LICENSE-lucide.txt`）。
+- アイコンとドメインの対応は `scripts/build-link-icons.mjs` の表で決め、`node scripts/build-link-icons.mjs` で CSS の該当部分を作り直します。
+- Live Preview のリンクには URL の属性がないため、アイコンは閲覧モードとプレビューだけに出ます。
 
 ## Updating
 
