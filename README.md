@@ -15,10 +15,10 @@ Cosense（旧Scrapbox）の表示に着想を得た、Obsidian用の非公式CSS
 - 幅の小さいリンク先プレビューでは内側のカード枠を外し、通常ノートカードと同じ背景・文字色、外周だけの均一な4px角丸リングで内容幅を確保
 - 任意のHover Editorプラグインを使う場合は、プレビューの上部バーをテーマ別の控えめなグレーに調整
 - 存在するノート、存在しないノート、外部リンクの配色分け
-- 外部リンクの前に、サイト（X・Twitterは青い鳥、GitHub、YouTube、Wikipedia、PubMed、Google ドライブなど）やファイル種別（PDF、画像など）を見分けるアイコン（閲覧モード、プレビュー、Live Previewの囲みと表の中）
+- 外部リンクの前に、サイト（X・Twitterは青い鳥、GitHub、YouTube、Wikipedia、PubMed、Google ドライブなど）やファイル種別（PDF、画像など）を見分けるアイコン（閲覧モード、プレビュー、Live Previewの囲みと表の中。Live Previewの通常のリンクは、Cosense Style Helperプラグインを入れると出ます）
 - 完了したタスクに、淡い赤の「処理済」ハンコ（文字の位置は動かさない）
 - 強調（太字）を SteelBlue、ハイライトをオレンジのマーカー風、表を見出し行の色付きと淡い縞模様に
-- 箇条書き：段が深いほど点を淡くし、今いる項目までの道筋を線でつなぐ（Logseq の bullet threading 風。Live Preview はカーソルの行、閲覧モードはマウスを乗せた項目。Live Preview はパソコンのみ、6段まで）
+- 箇条書き：段が深いほど点を淡くし、今いる項目までの道筋を線でつなぐ（Logseq の bullet threading 風。閲覧モードはマウスを乗せた項目。Live Preview はカーソルの行で、Cosense Style Helperプラグインが描きます）
 - タブ、タイトルバー、リボン、左右サイドバーの配色調整
 - デスクトップ、iPhone、iPad向けのレスポンシブ調整
 - コードブロック、引用、ハイライトの調整
