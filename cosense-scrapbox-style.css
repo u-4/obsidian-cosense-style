@@ -85,6 +85,7 @@ body {
   --cosense-code-text: #343092;
   --cosense-code-title-bg: #ffcfc6;
   --cosense-quote-bg: #f0f3f6;
+  --cosense-quote-border: #a8a8a8;
   --cosense-highlight: #ffcc33;
   --cosense-elevator-lit: #1a7f26;
 }
@@ -131,6 +132,7 @@ body {
   --cosense-code-text: #d3d3ff;
   --cosense-code-title-bg: #513c3b;
   --cosense-quote-bg: #2d2f37;
+  --cosense-quote-border: #6e7380;
   --cosense-highlight: #ffc93c;
   --cosense-elevator-lit: #7ed67a;
 }
@@ -182,6 +184,14 @@ body {
   --cosense-card-title: var(--cosense-text);
   --cosense-card-text: var(--cosense-muted);
   --cosense-card-hover-bg: color-mix(in srgb, var(--cosense-card), var(--cosense-text) 6%);
+
+  /* Quotes: Obsidian draws them from these in reading view and while editing alike. */
+  --blockquote-background-color: var(--cosense-quote-bg);
+  --blockquote-border-color: var(--cosense-quote-border);
+  --blockquote-border-thickness: 4px;
+  --blockquote-color: var(--cosense-text);
+  --blockquote-font-style: normal;
+  --blockquote-style: normal;
 }
 
 /* A 6% tint barely shows on the white light-theme card. */
@@ -759,9 +769,6 @@ body .popover.hover-popover :is(.view-header-title, .view-header-title-container
 .markdown-rendered blockquote {
   margin-inline: 0;
   padding: 0.65em 1em;
-  background: var(--cosense-quote-bg);
-  border-left: 4px solid #a8a8a8;
-  color: var(--cosense-text);
 }
 
 .markdown-rendered :is(table, th, td) {

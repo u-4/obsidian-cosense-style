@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.3.2] - 2026-10-14
+
+### Changed
+
+- Quotes look like Cosense's while editing too: the snippet now sets Obsidian's blockquote variables (gray background, 4px gray left line, upright text), which Obsidian uses in reading view and Live Preview alike. Before, only reading view had the Cosense look.
+
 ## [0.3.1] - 2026-10-13
 
 ### Fixed
