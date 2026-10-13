@@ -664,8 +664,10 @@ body .popover.hover-popover :is(.view-header-title, .view-header-title-container
 
 /*
   Link icons: each link sets --cosense-link-icon (generated below) and one
-  ::before paints it in the link's own color through a mask. Reading view and
-  previews only: Live Preview links carry no URL attribute to match.
+  ::before paints it through a mask, in the link's own color unless the row
+  sets --cosense-link-icon-color (the Twitter bird keeps its blue). Shown in
+  reading view, previews, and Live Preview callouts and tables (rendered as
+  .markdown-rendered); plain Live Preview links carry no URL to match.
 */
 .markdown-rendered a.external-link::before,
 .markdown-rendered a.internal-link:is([data-href$=".pdf" i], [data-href$=".png" i], [data-href$=".jpg" i], [data-href$=".jpeg" i], [data-href$=".gif" i], [data-href$=".webp" i], [data-href$=".svg" i], [data-href$=".heic" i], [data-href$=".md" i], [data-href$=".txt" i], [data-href$=".ps1" i], [data-href$=".js" i], [data-href$=".py" i])::before {
@@ -675,7 +677,7 @@ body .popover.hover-popover :is(.view-header-title, .view-header-title-container
   height: 0.95em;
   margin-right: 0.25em;
   vertical-align: -0.12em;
-  background-color: currentColor;
+  background-color: var(--cosense-link-icon-color, currentColor);
   -webkit-mask: var(--cosense-link-icon) center / contain no-repeat;
   mask: var(--cosense-link-icon) center / contain no-repeat;
 }
@@ -805,7 +807,8 @@ body .popover.hover-popover :is(.view-header-title, .view-header-title-container
 .markdown-rendered a.external-link[href*=".x.com" i],
 .markdown-rendered a.external-link[href*="//t.co" i],
 .markdown-rendered a.external-link[href*=".t.co" i] {
-  --cosense-link-icon: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M14.234 10.162 22.977 0h-2.072l-7.591 8.824L7.251 0H.258l9.168 13.343L.258 24H2.33l8.016-9.318L16.749 24h6.993zm-2.837 3.299-.929-1.329L3.076 1.56h3.182l5.965 8.532.929 1.329 7.754 11.09h-3.182z'/%3E%3C/svg%3E");
+  --cosense-link-icon: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M21.543 7.104c.015.211.015.423.015.636 0 6.507-4.954 14.01-14.01 14.01v-.003A13.94 13.94 0 0 1 0 19.539a9.88 9.88 0 0 0 7.287-2.041 4.93 4.93 0 0 1-4.6-3.42 4.916 4.916 0 0 0 2.223-.084A4.926 4.926 0 0 1 .96 9.167v-.062a4.887 4.887 0 0 0 2.235.616A4.928 4.928 0 0 1 1.67 3.148 13.98 13.98 0 0 0 11.82 8.292a4.929 4.929 0 0 1 8.39-4.49 9.868 9.868 0 0 0 3.128-1.196 4.941 4.941 0 0 1-2.165 2.724A9.828 9.828 0 0 0 24 4.555a10.019 10.019 0 0 1-2.457 2.549z'/%3E%3C/svg%3E");
+  --cosense-link-icon-color: #1d9bf0;
 }
 
 .markdown-rendered a.external-link[href*="//github.com" i],

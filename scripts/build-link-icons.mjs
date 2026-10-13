@@ -2,8 +2,8 @@
 // in scripts/link-icons/ and the table below. The icons are embedded as data:
 // URLs, so the snippet makes no network requests.
 //   node scripts/build-link-icons.mjs
-// Brand marks: Simple Icons (CC0). Generic icons: Lucide (ISC, see
-// scripts/link-icons/LICENSE-lucide.txt).
+// Brand marks: Simple Icons (CC0; the Twitter bird is from Simple Icons 10).
+// Generic icons: Lucide (ISC, see scripts/link-icons/LICENSE-lucide.txt).
 import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
@@ -32,7 +32,8 @@ const rows = [
   ['pubmed', { href: host('ncbi.nlm.nih.gov') }],
   ['doi', { href: host('doi.org') }],
   ['googlescholar', { href: host('scholar.google.com', 'scholar.google.co.jp') }],
-  ['x', { href: host('twitter.com', 'x.com', 't.co') }],
+  // The classic blue bird in its own color, as on Cosense.
+  ['twitter', { href: host('twitter.com', 'x.com', 't.co'), color: '#1d9bf0' }],
   ['github', { href: host('github.com', 'githubusercontent.com') }],
   ['youtube', { href: host('youtube.com', 'youtu.be') }],
   ['wikipedia', { href: host('wikipedia.org') }],
@@ -85,7 +86,8 @@ for (const [icon, sel] of rows) {
     ...(sel.ext ?? []).map(s => `${base}${s}`),
     ...(sel.dataExt ?? []).map(s => `.markdown-rendered a.internal-link${s}`),
   ];
-  lines.push(`${selectors.join(',\n')} {\n  --cosense-link-icon: ${dataUrl(icon)};\n}`);
+  const color = sel.color ? `\n  --cosense-link-icon-color: ${sel.color};` : '';
+  lines.push(`${selectors.join(',\n')} {\n  --cosense-link-icon: ${dataUrl(icon)};${color}\n}`);
 }
 lines.push(`/* link-icons:end */`);
 
