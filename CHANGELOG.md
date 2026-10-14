@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.1] - 2026-10-14
+
+### Fixed
+
+- On phones and tablets, menus (file and link menus, the ribbon menu, dropdowns) were the blue canvas color at 90% opacity with a blur, so notes showed through and dark text sat on blue (seen on the iPad). They now use the card color, solid and without the blur.
+- Prompts (search screens, command palette, quick switcher) and suggestion popups were still 90% opaque after 0.3.1 removed their blur, so notes showed through more clearly than before. Obsidian's mobile mix values (`--blur-opacity-m` 90%, `--blur-opacity-s` 65% for raised buttons and bars) are now 100%, so these and the floating buttons are solid.
+- The search options box on mobile, and on phones the Bases toolbar menu and nested dialogs, used the blue canvas; they now use the card color.
+
+### Verified
+
+- Checked the computed background and backdrop filter of menus, prompts, suggestions, raised buttons and the search options box against Obsidian 1.14.4's `app.css` in a local test page (light and dark, tablet and phone body classes): all solid, before this change 90% or 65%. Not yet checked on the iPad itself.
+
 ## [0.4.0] - 2026-10-14
 
 ### Added

@@ -1322,16 +1322,34 @@ body .popover.hover-popover :is(.view-header-title, .view-header-title-container
   is behind prompts and suggestions. Dark text on the canvas was hard to read
   and the notes showed through. Use the card color instead, without the blur.
   body.is-mobile is needed to win over Obsidian's own .is-mobile values.
+
+  Menus (file and link menus, the ribbon menu, dropdowns) get the same
+  treatment through --menu-background, also the blue canvas by default.
+  Obsidian also mixes menus, prompts and suggestions to 90% of their color
+  (--blur-opacity-m) and the raised buttons and bars to 65%
+  (--blur-opacity-s), so the note behind showed through even without the
+  blur. 100% makes them solid.
 */
 body.is-mobile {
   --prompt-background: var(--background-primary);
   --prompt-backdrop-filter: none;
   --suggestion-background: var(--background-primary);
   --suggestion-backdrop-filter: none;
+  --menu-background: var(--background-primary);
+  --menu-backdrop-filter: none;
+  --blur-opacity-m: 100%;
+  --blur-opacity-s: 100%;
   --settings-background: var(--background-primary);
   --setting-items-background: var(--background-primary);
   --settings-home-background: var(--background-primary);
   --interactive-normal: var(--background-primary);
+}
+
+/* Other mobile panels Obsidian paints with the blue canvas. */
+.is-mobile .search-params,
+.is-phone .bases-toolbar-menu,
+.is-phone .modal .modal:not(.mod-lg) {
+  background-color: var(--background-primary);
 }
 
 .is-mobile :is(.titlebar, .titlebar-inner, .mobile-navbar, .mobile-toolbar, .mobile-toolbar-options-container, .workspace-drawer-header, .workspace-drawer-ribbon) {
