@@ -2,14 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [0.4.0] - 2026-10-14
 
 ### Added
 
 - Site and file-type icons before external links (and internal links to PDF, image, text and code files) in reading view, previews, and Live Preview callouts and tables (Obsidian renders those as `.markdown-rendered`): the classic blue Twitter bird for X and Twitter links (in its own color, from Simple Icons 10), GitHub, YouTube, Wikipedia, PubMed, DOI, Google Drive/Docs/Sheets/Slides/Maps/Calendar/Gmail, Google Scholar, Rakuten, Tabelog, Qiita, Hatena, note, Zenn, Dropbox, Facebook, Instagram, Notion, iCloud, LINE, Obsidian, Scrapbox, a book icon for major journal sites, UpToDate, Amazon, Gyazo, Japanese government sites, PDF, images, text and code files, mail. They replace the earlier text badges. Icons are SVG `data:` URLs painted in the link color through a mask; no network access. Plain Live Preview links carry no URL attribute, so they get no icon. `scripts/build-link-icons.mjs` regenerates the section from the vendored SVGs (Simple Icons CC0, Lucide ISC).
 - Cosense-style text: bold in SteelBlue (light `#4682b4`, dark `#8ab4dc`, through `--bold-color`; plain on the blue related regions), `==highlight==` as Cosense's orange marker band, and tables with a blue-tinted header row and light row stripes (Obsidian's `--table-*` variables, so Live Preview tables match).
 - List threads like Logseq's bullet threading: the items on the path to the current one are joined by a line with a rounded turn into each bullet, and those bullets are bigger and take the link color. In reading view the path follows the pointer over the nested `<li>`s (CSS only). In Live Preview the new Cosense Style Helper plugin draws it from the cursor; an earlier CSS-only version with `:has()` was dropped because Obsidian gives two-space-indented lists (about half of the vault) no indent elements to draw on. Bullets also fade slightly with depth, and Obsidian's own Live Preview guides now sit under the bullets.
-- Live Preview link icons through the Cosense Style Helper plugin's `.cosense-link-icon[data-href]` span; `scripts/build-link-icons.mjs` emits those selectors next to the reading-view ones.
+- Live Preview link icons through the Cosense Style Helper plugin's `.cosense-link-icon[data-href]` span (from helper 0.2.0 also in Key-Value List rows, whose missing-note links the helper marks with `is-unresolved` for section 9); `scripts/build-link-icons.mjs` emits those selectors next to the reading-view ones.
 - Completed tasks (`data-task="x"`) get a pale red 処理済 stamp beside their first line, in reading view and Live Preview. It is positioned outside the text flow, sits in the card's side padding when it fits (desktop widths) and otherwise overlaps the line end, so checking a task moves no text.
 
 ### Fixed
