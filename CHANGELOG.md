@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.2] - 2026-10-15
+
+### Fixed
+
+- In Live Preview, clicking a table cell to edit it painted the cell's text area in the blue canvas color, so blue link text sat on dark blue (seen on the desktop app). Obsidian edits the cell in a small editor of its own, and its `.cm-scroller` matched the snippet's canvas rule for the note's scroller. Table cell editors are now transparent and keep the cell's white or striped background.
+
+### Verified
+
+- Checked the computed background of the note's scroller and of a table cell editor against Obsidian 1.14.4's `app.css` in a local test page (light and dark): the cell editor was the canvas color before this change and is transparent after it; the note's scroller keeps the canvas color. Not yet checked in the desktop app itself.
+
 ## [0.4.1] - 2026-10-14
 
 ### Fixed
