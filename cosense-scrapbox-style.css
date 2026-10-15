@@ -386,6 +386,14 @@ body,
   background: var(--cosense-canvas);
 }
 
+/*
+  A Live Preview table edits the clicked cell in its own small editor, whose
+  .cm-scroller would take the canvas blue above. Keep the cell's own color.
+*/
+.markdown-source-view.mod-cm6 .cm-table-widget .cm-scroller {
+  background: transparent;
+}
+
 .view-header {
   background: linear-gradient(180deg, var(--cosense-topbar), var(--cosense-tab-active-strong));
   color: var(--cosense-topbar-text);
