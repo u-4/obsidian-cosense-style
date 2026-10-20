@@ -254,10 +254,14 @@ body,
   background: var(--cosense-window);
 }
 
+/*
+  Obsidian paints the title bar from --titlebar-background above. With the
+  default hidden frame on Windows and Linux the title bar is a transparent
+  layer over the tab bars, so painting it here would cover every tab.
+*/
 .titlebar,
 .titlebar-inner,
 .titlebar-button-container {
-  background: var(--cosense-tabbar);
   color: var(--cosense-tab-text);
 }
 

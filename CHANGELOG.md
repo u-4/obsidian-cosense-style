@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.3] - 2026-10-20
+
+### Fixed
+
+- On Windows (and Linux) with Obsidian's default hidden window frame, the note tabs and the sidebar tab icons (file explorer, search, calendar, properties and so on) were covered by a plain green bar. Obsidian lays its title bar over the top row there as a transparent layer that holds only the window buttons, and the snippet painted that layer green. The snippet no longer paints the title bar; Obsidian paints it from `--titlebar-background`, which is still the tab bar green, so the window buttons and the separate title bar of the "Obsidian frame" style keep that color. macOS was not affected, because Obsidian hides that layer there.
+
+### Verified
+
+- Checked against Obsidian 1.14.4's `app.css` in a local test page (light and dark): with the Windows hidden frame the title bar layer was green over the tabs before this change and is transparent after it, and the tab shows through; the window button area stays green; the "Obsidian frame" title bar stays green. Not yet checked in the Windows app itself.
+
 ## [0.4.2] - 2026-10-15
 
 ### Fixed
