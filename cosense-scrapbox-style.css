@@ -1409,6 +1409,27 @@ body.is-mobile {
   opacity: 1 !important;
 }
 
+/*
+  On tablets the sidebar toggles are plain divs in the dark tab bar row, not
+  buttons on the green note header, so they take the tab bar look like the
+  tab icons beside them. The phone's toggle (a .view-action in the note
+  header) keeps the green control look above.
+*/
+.is-mobile .sidebar-toggle-button:not(.view-action) {
+  --icon-color: var(--cosense-tab-text);
+  --icon-color-hover: var(--cosense-tab-text);
+  --icon-color-active: var(--cosense-tab-text);
+  --icon-color-focus: var(--cosense-tab-text);
+  --background-modifier-hover: var(--cosense-tab-hover);
+  background: transparent !important;
+  border-color: transparent !important;
+  color: var(--cosense-tab-text) !important;
+}
+
+.is-mobile .sidebar-toggle-button:not(.view-action) svg {
+  color: var(--cosense-tab-text) !important;
+}
+
 .is-mobile .workspace-drawer {
   background: var(--cosense-side);
   color: var(--cosense-side-text);
