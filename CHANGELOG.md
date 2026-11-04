@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.4] - 2026-11-04
+
+### Fixed
+
+- On the iPad, the left and right sidebar toggles at the top corners were bright green boxes with dark icons, standing out from the darker tab bar around them. They shared the green control look of the note header's action buttons, but on tablets they sit in the tab bar row. They now have no background or border and use the tab bar's icon color, like the tabs beside them. The phone's sidebar toggle, which sits in the green note header, keeps the green control look.
+
+### Verified
+
+- Checked the computed background, border and icon color of the toggles against Obsidian 1.15.0's `app.css` in a local test page (light and dark, tablet and phone body classes): on tablets the toggles were `#35c83b` (light) and `#3f8a46` (dark) before this change and are transparent over the tab bar after it, with white (light) and light gray (dark) icons; the phone's note header toggle is unchanged. Not yet checked on the iPad itself.
+
 ## [0.4.3] - 2026-10-20
 
 ### Fixed
